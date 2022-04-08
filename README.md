@@ -1,7 +1,6 @@
 # mini_chat_app_flutter
 
-A new Flutter project.
-
+Basic Chat App using Flutter, Firebase.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
