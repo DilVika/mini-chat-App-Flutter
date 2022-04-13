@@ -1,5 +1,4 @@
-
-import '/domains/entities/message_entity.dart';
+import '../models/message_data_model.dart';
 import '/domains/repositories/i_message_repository.dart';
 import '/services/services.dart';
 
@@ -8,15 +7,12 @@ class MessageRepository implements IMessageRepository {
   // Data provider source from services.
   final IHttpService _httpService;
   final ILocalService _localService;
-  
 
   MessageRepository(this._httpService, this._localService);
 
   @override
-  Future<List<MessageEntity>> getMessages() {
+  Future<List<MessageDataModel>> getMessages() {
     // TODO: implement getMessages
     throw UnimplementedError();
   }
-
-
 }
