@@ -60,44 +60,44 @@ class ChatPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  TextFormField(
-                    readOnly: true,
-                    //false
-                    autofocus: false,
-                    // style: ,
-                    decoration: InputDecoration(
-                      prefixIcon: Container(
-                        // color: Colors.blue,
-                        padding: EdgeInsets.only(
-                          left: 9,
-                        ),
-                        child: const Icon(Icons.search, color: Colors.black),
-                      ),
-                      prefixIconConstraints: BoxConstraints(
-                          minHeight: 24,
-                          maxHeight: 24,
-                          minWidth: 41,
-                          maxWidth: 41),
-                      hintText: "Search conversations",
-                      // hintStyle: textFieldPlaceholderTextStyle(context),
-                      isDense: true,
-                      filled: true,
-                      fillColor: AppColors.greyC4,
-                      focusedBorder: AppStyles.focusedTransparentBorder,
-                      disabledBorder: AppStyles.focusedTransparentBorder,
-                      enabledBorder: AppStyles.focusedTransparentBorder,
-                      errorBorder: AppStyles.focusedTransparentBorder,
-                      focusedErrorBorder: AppStyles.focusedTransparentBorder,
-                      errorStyle: errorTextStyle(context),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    onSaved: (val) {},
-                    onEditingComplete: () {},
-                    onChanged: (val) {},
-                    // validator: (val) {},
-                    onTap: () {},
-                  ),
+                  // TextFormField(
+                  //   readOnly: true,
+                  //   //false
+                  //   autofocus: false,
+                  //   // style: ,
+                  //   decoration: InputDecoration(
+                  //     prefixIcon: Container(
+                  //       // color: Colors.blue,
+                  //       padding: EdgeInsets.only(
+                  //         left: 9,
+                  //       ),
+                  //       child: const Icon(Icons.search, color: Colors.black),
+                  //     ),
+                  //     prefixIconConstraints: BoxConstraints(
+                  //         minHeight: 24,
+                  //         maxHeight: 24,
+                  //         minWidth: 41,
+                  //         maxWidth: 41),
+                  //     hintText: "Search conversations",
+                  //     // hintStyle: textFieldPlaceholderTextStyle(context),
+                  //     isDense: true,
+                  //     filled: true,
+                  //     fillColor: AppColors.greyC4,
+                  //     focusedBorder: AppStyles.focusedTransparentBorder,
+                  //     disabledBorder: AppStyles.focusedTransparentBorder,
+                  //     enabledBorder: AppStyles.focusedTransparentBorder,
+                  //     errorBorder: AppStyles.focusedTransparentBorder,
+                  //     focusedErrorBorder: AppStyles.focusedTransparentBorder,
+                  //     errorStyle: errorTextStyle(context),
+                  //   ),
+                  //   textInputAction: TextInputAction.next,
+                  //   keyboardType: TextInputType.text,
+                  //   onSaved: (val) {},
+                  //   onEditingComplete: () {},
+                  //   onChanged: (val) {},
+                  //   // validator: (val) {},
+                  //   onTap: () {},
+                  // ),
                   SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -117,51 +117,51 @@ class ChatPage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Container(
-                        width: 45,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          color: AppColors.greyC4,
-                        ),
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: IconButton(
-                            visualDensity:
-                                VisualDensity.adaptivePlatformDensity,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.phone,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 17),
-                      Container(
-                        width: 45,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          color: AppColors.greyC4,
-                        ),
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: IconButton(
-                            visualDensity:
-                                VisualDensity.adaptivePlatformDensity,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.videocam,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      )
+                      // Container(
+                      //   width: 45,
+                      //   height: 45,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(45),
+                      //     color: AppColors.greyC4,
+                      //   ),
+                      //   child: SizedBox(
+                      //     width: 24,
+                      //     height: 24,
+                      //     child: IconButton(
+                      //       visualDensity:
+                      //           VisualDensity.adaptivePlatformDensity,
+                      //       padding: EdgeInsets.zero,
+                      //       onPressed: () {},
+                      //       icon: const Icon(
+                      //         Icons.phone,
+                      //         color: Colors.black,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // SizedBox(width: 17),
+                      // Container(
+                      //   width: 45,
+                      //   height: 45,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(45),
+                      //     color: AppColors.greyC4,
+                      //   ),
+                      //   child: SizedBox(
+                      //     width: 24,
+                      //     height: 24,
+                      //     child: IconButton(
+                      //       visualDensity:
+                      //           VisualDensity.adaptivePlatformDensity,
+                      //       padding: EdgeInsets.zero,
+                      //       onPressed: () {},
+                      //       icon: const Icon(
+                      //         Icons.videocam,
+                      //         color: Colors.black,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   // SizedBox(height: 30.h),
