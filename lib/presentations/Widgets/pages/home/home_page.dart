@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mini_chat_app_flutter/presentations/Widgets/pages/chat/chat_page.dart';
 
-import '../../res/colors.dart';
-import '../../res/styles.dart';
+// Import resource.dart relatives path
+import '/resources/resources.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,12 +25,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 54, 24, 29),
+              padding: const EdgeInsets.fromLTRB(24, 54, 24, 29),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -43,8 +40,8 @@ class HomePage extends StatelessWidget {
                       Text(
                         'Supper Chat',
                         style: GoogleFonts.workSans(
-                          textStyle: TextStyle(
-                            fontSize: 24,
+                          textStyle: const TextStyle(
+                            fontSize: 28,
                             color: Colors.black,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
@@ -68,43 +65,45 @@ class HomePage extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 22),
-                  TextFormField(
-                    readOnly: true, //false
-                    autofocus: false,
-                    // style: ,
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: const Icon(Icons.search, color: Colors.black),
-                      ),
-                      prefixIconConstraints:
-                          BoxConstraints(maxHeight: 20, maxWidth: 35),
-                      hintText: "Contacts",
-                      // hintStyle: textFieldPlaceholderTextStyle(context),
-                      isDense: true,
-                      filled: true,
-                      fillColor: AppColors.greyC4,
-                      focusedBorder: AppStyles.focusedTransparentBorder,
-                      disabledBorder: AppStyles.focusedTransparentBorder,
-                      enabledBorder: AppStyles.focusedTransparentBorder,
-                      errorBorder: AppStyles.focusedTransparentBorder,
-                      focusedErrorBorder: AppStyles.focusedTransparentBorder,
-                      errorStyle: errorTextStyle(context),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    onSaved: (val) {},
-                    onEditingComplete: () {},
-                    onChanged: (val) {},
-                    // validator: (val) {},
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 30),
+
+                  /// Search bar: Temporary disabled.
+                  // const SizedBox(height: 22),
+                  // TextFormField(
+                  //   readOnly: true, //false
+                  //   autofocus: false,
+                  //   // style: ,
+                  //   decoration: InputDecoration(
+                  //     prefixIcon: const Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 8),
+                  //       child: Icon(Icons.search, color: Colors.black),
+                  //     ),
+                  //     prefixIconConstraints:
+                  //         const BoxConstraints(maxHeight: 20, maxWidth: 35),
+                  //     hintText: "Contacts",
+                  //     // hintStyle: textFieldPlaceholderTextStyle(context),
+                  //     isDense: true,
+                  //     filled: true,
+                  //     fillColor: AppColors.greyC4,
+                  //     focusedBorder: AppStyles.focusedTransparentBorder,
+                  //     disabledBorder: AppStyles.focusedTransparentBorder,
+                  //     enabledBorder: AppStyles.focusedTransparentBorder,
+                  //     errorBorder: AppStyles.focusedTransparentBorder,
+                  //     focusedErrorBorder: AppStyles.focusedTransparentBorder,
+                  //     errorStyle: errorTextStyle(context),
+                  //   ),
+                  //   textInputAction: TextInputAction.next,
+                  //   keyboardType: TextInputType.text,
+                  //   onSaved: (val) {},
+                  //   onEditingComplete: () {},
+                  //   onChanged: (val) {},
+                  //   // validator: (val) {},
+                  //   onTap: () {},
+                  // ),
+                  const SizedBox(height: 30),
                   Text(
                     'Last Contact',
                     style: GoogleFonts.workSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 14,
                         color: Colors.black,
                         fontStyle: FontStyle.normal,
@@ -112,7 +111,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   SizedBox(
                     height: 60,
                     width: 359,
@@ -157,7 +156,7 @@ class HomePage extends StatelessWidget {
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
+                        return const SizedBox(
                           width: 16,
                         );
                       },
@@ -168,10 +167,10 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.fromLTRB(24, 44, 26, 0),
+                padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
@@ -192,21 +191,25 @@ class HomePage extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         // Push to chat screen with name.
-                        Navigator.of(context).push(PageRouteBuilder(
-                            pageBuilder: (context, x, z) => SizeTransition(
-                                sizeFactor: x, child: const ChatPage()),
-                            transitionDuration: Duration(seconds: 3),
-                            transitionsBuilder: (___,
-                                Animation<double> animation,
-                                ____,
-                                Widget child) {
-                              return RotationTransition(
-                                turns: Tween<double>(begin: 0, end: 1.0)
-                                    .animate(animation),
-                                //sizeFactor: animation,
-                                child: child,
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const ChatPage(),
+                            // transitionDuration: Duration(seconds: 3),
+                            transitionsBuilder:
+                                (___, animation, ____, Widget child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(0.5, 1.0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child:
+                                    child, // child is the value returned by pageBuilder
                               );
-                            }));
+                            },
+                          ),
+                        );
                       },
                       child: SizedBox(
                         key: ValueKey<int>(i),
@@ -224,7 +227,7 @@ class HomePage extends StatelessWidget {
                                 color: AppColors.greyC4,
                               ),
                             ),
-                            SizedBox(width: 14.w),
+                            const SizedBox(width: 14),
                             Expanded(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -242,7 +245,7 @@ class HomePage extends StatelessWidget {
                                         child: Text(
                                           names[i],
                                           style: GoogleFonts.workSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
                                               fontStyle: FontStyle.normal,
@@ -256,9 +259,10 @@ class HomePage extends StatelessWidget {
                                       Text(
                                         "14:23",
                                         style: GoogleFonts.workSans(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                             fontSize: 14,
-                                            color: const Color(0xffA8A8A8),
+                                            color: Color.fromRGBO(
+                                                168, 168, 168, 1),
                                             fontStyle: FontStyle.normal,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -266,11 +270,11 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 3),
+                                  const SizedBox(height: 3),
                                   Text(
                                     'lorem ispum',
                                     style: GoogleFonts.workSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontStyle: FontStyle.normal,
@@ -289,7 +293,7 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (c, i) {
-                    return SizedBox(height: 24);
+                    return const SizedBox(height: 24);
                   },
                 ),
               ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../res/colors.dart';
-import '../../res/styles.dart';
+import '../../../../resources/styles.dart';
+import '/resources/resources.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -37,7 +35,7 @@ class ChatPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -59,7 +57,7 @@ class ChatPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   // TextFormField(
                   //   readOnly: true,
                   //   //false
@@ -98,7 +96,7 @@ class ChatPage extends StatelessWidget {
                   //   // validator: (val) {},
                   //   onTap: () {},
                   // ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -106,7 +104,7 @@ class ChatPage extends StatelessWidget {
                         child: Text(
                           "Justin Wan",
                           style: GoogleFonts.workSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 28,
                               color: Colors.black,
                               fontStyle: FontStyle.normal,
@@ -168,13 +166,13 @@ class ChatPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 52),
+            const SizedBox(height: 52),
             Expanded(
               child: Container(
-                padding: EdgeInsets.fromLTRB(24, 44, 26, 0),
+                padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
@@ -210,7 +208,7 @@ class ChatPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 9, bottom: 9),
+                      margin: const EdgeInsets.only(top: 9, bottom: 9),
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
@@ -218,7 +216,7 @@ class ChatPage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          SizedBox(width: 25),
+                          const SizedBox(width: 25),
                           Expanded(
                             child: TextFormField(
                               readOnly: true,
@@ -254,7 +252,7 @@ class ChatPage extends StatelessWidget {
                           Container(
                             width: 45,
                             height: 45,
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                                 horizontal: 2, vertical: 2),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(45),
@@ -291,14 +289,14 @@ class ChatPage extends StatelessWidget {
   _buildChat({required MessageModel chat, required bool showProfileBox}) {
     return chat.isRight
         ? Container(
-            margin: EdgeInsets.only(bottom: 42),
+            margin: const EdgeInsets.only(bottom: 42),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(chat.time),
                 ),
                 Expanded(
@@ -307,9 +305,9 @@ class ChatPage extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(18, 13, 18, 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffD0D0D0),
+                          padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
+                          decoration: const BoxDecoration(
+                            color: Color(0xffD0D0D0),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20),
@@ -328,7 +326,7 @@ class ChatPage extends StatelessWidget {
             ),
           )
         : Container(
-            margin: EdgeInsets.only(bottom: 42),
+            margin: const EdgeInsets.only(bottom: 42),
             child: IntrinsicHeight(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -349,16 +347,16 @@ class ChatPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 21),
+                  const SizedBox(width: 21),
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Flexible(
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(18, 13, 18, 12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xffD0D0D0),
+                            padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
+                            decoration: const BoxDecoration(
+                              color: Color(0xffD0D0D0),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
@@ -383,7 +381,7 @@ class ChatPage extends StatelessWidget {
                         maintainState: true,
                         maintainSize: true,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(chat.time),
                         ),
                       )

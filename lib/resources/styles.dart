@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'colors.dart';
 import 'dimensions.dart';
@@ -24,7 +23,7 @@ class AppStyles {
 }
 
 errorTextStyle(context) => TextStyle(
-      fontSize: 10.sp,
+      fontSize: 10,
       color: Theme.of(context).errorColor,
       fontWeight: FontWeight.w500,
       height: 1.4,

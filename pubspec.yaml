@@ -36,13 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   # UI Toolkit.
-  flutter_screenutil: ^5.4.0
+  # flutter_screenutil: ^5.4.0
   intl: ^0.17.0
   flutter_svg: ^1.0.3
   google_fonts: ^2.3.1
-  get_it: ^7.2.0
+  # get_it: ^7.2.0
   flutter_bloc: ^8.0.1
-  table_calendar: ^3.0.5
+  # table_calendar: ^3.0.5
 
 
 
@@ -126,10 +126,10 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 
-flutter_intl:
-  arb_dir: lib/l10n
-#  class_name: Translations
-  main_locale: en_US
-  enabled: true
+# flutter_intl:
+#   arb_dir: lib/l10n
+# #  class_name: Translations
+#   main_locale: en_US
+#   enabled: true
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
