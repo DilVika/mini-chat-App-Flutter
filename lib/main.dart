@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_chat_app_flutter/presentations/Widgets/pages/home/home_page.dart';
+import 'package:mini_chat_app_flutter/theme.dart';
 
 import 'resources/resources.dart';
 
@@ -16,10 +17,9 @@ class MyApp extends StatelessWidget {
     // return ScreenUtilInit(builder: (context) {
     return MaterialApp(
       title: UI.appName,
-      theme: ThemeData(
-        // Set color scheme to navy blue
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue),
-      ),
+      theme: AppTheme.defaultTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       home: const HomePage(),
     );
     // });

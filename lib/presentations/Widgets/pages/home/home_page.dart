@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mini_chat_app_flutter/presentations/Widgets/pages/chat/chat_page.dart';
@@ -24,8 +25,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
     return Scaffold(
-      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -38,28 +39,21 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Supper Chat',
-                        style: GoogleFonts.workSans(
-                          textStyle: const TextStyle(
-                            fontSize: 28,
-                            color: Colors.black,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        'Nerd Chat',
+                        style: _theme.textTheme.headlineSmall,
                       ),
                       SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: IconButton(
-                          visualDensity: VisualDensity.adaptivePlatformDensity,
+                        width: Dimensions.defaultIconSize,
+                        height: Dimensions.defaultIconSize,
+                        child: CupertinoButton(
+                          //visualDensity: VisualDensity.adaptivePlatformDensity,
                           padding: EdgeInsets.zero,
                           onPressed: () {
                             //TODO: Implement here
                           },
-                          icon: const Icon(
+                          child: const Icon(
                             Icons.add_circle,
-                            color: Colors.black,
+                            //color: Colors.white,
                           ),
                         ),
                       )
@@ -100,17 +94,16 @@ class HomePage extends StatelessWidget {
                   //   onTap: () {},
                   // ),
                   const SizedBox(height: 30),
-                  Text(
-                    'Last Contact',
-                    style: GoogleFonts.workSans(
-                      textStyle: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w600,
+                  Text('Last Contact', style: _theme.textTheme.titleSmall
+                      // style: GoogleFonts.workSans(
+                      //   textStyle: const TextStyle(
+                      //     fontSize: 14,
+                      //     color: Colors.black,
+                      //     fontStyle: FontStyle.normal,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                       ),
-                    ),
-                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     height: 60,
@@ -196,14 +189,12 @@ class HomePage extends StatelessWidget {
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
                                     const ChatPage(),
-                            // transitionDuration: Duration(seconds: 3),
+                            transitionDuration: Duration(seconds: 2),
+                            reverseTransitionDuration: Duration(seconds: 3),
                             transitionsBuilder:
                                 (___, animation, ____, Widget child) {
-                              return SlideTransition(
-                                position: Tween<Offset>(
-                                  begin: const Offset(0.5, 1.0),
-                                  end: Offset.zero,
-                                ).animate(animation),
+                              return FadeTransition(
+                                opacity: animation,
                                 child:
                                     child, // child is the value returned by pageBuilder
                               );
@@ -242,45 +233,48 @@ class HomePage extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          names[i],
-                                          style: GoogleFonts.workSans(
-                                            textStyle: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                        child: Hero(
+                                          // flightShuttleBuilder:
+                                          //     // Implement flightShuttleBuilder
+                                          //     (
+                                          //   BuildContext flightContext,
+                                          //   Animation<double> animation,
+                                          //   HeroFlightDirection flightDirection,
+                                          //   BuildContext fromHeroContext,
+                                          //   BuildContext toHeroContext,
+                                          // ) {
+                                          //   //return widget(child: fromHeroContext.widget);
+                                          //   return DefaultTextStyleTransition(
+                                          //     style: Tween<TextStyle>(
+                                          //       begin: DefaultTextStyle.of(
+                                          //               fromHeroContext)
+                                          //           .style,
+                                          //       end: DefaultTextStyle.of(
+                                          //               toHeroContext)
+                                          //           .style,
+                                          //     ).animate(animation),
+                                          //     child: toHeroContext.widget, //,
+                                          //   );
+                                          // },
+                                          tag: names[i],
+                                          child: Text(
+                                            names[i],
+                                            style: _theme.textTheme.titleMedium,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Text(
                                         "14:23",
-                                        style: GoogleFonts.workSans(
-                                          textStyle: const TextStyle(
-                                            fontSize: 14,
-                                            color: Color.fromRGBO(
-                                                168, 168, 168, 1),
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
+                                        style: _theme.textTheme.subtitle1,
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 3),
                                   Text(
                                     'lorem ispum',
-                                    style: GoogleFonts.workSans(
-                                      textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                    style: _theme.textTheme.bodyMedium,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),

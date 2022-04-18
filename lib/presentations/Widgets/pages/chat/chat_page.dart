@@ -5,7 +5,9 @@ import '../../../../resources/styles.dart';
 import '/resources/resources.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({
+    Key? key,
+  }) : super(key: key);
 
   static List<MessageModel> messages = [
     MessageModel(
@@ -28,8 +30,8 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,65 +103,16 @@ class ChatPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Text(
-                          "Justin Wan",
-                          style: GoogleFonts.workSans(
-                            textStyle: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.black,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        child: Hero(
+                          tag: "Justin Wan",
+                          child: Text(
+                            "Justin Wan",
+                            style: _theme.textTheme.headlineSmall,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // Container(
-                      //   width: 45,
-                      //   height: 45,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(45),
-                      //     color: AppColors.greyC4,
-                      //   ),
-                      //   child: SizedBox(
-                      //     width: 24,
-                      //     height: 24,
-                      //     child: IconButton(
-                      //       visualDensity:
-                      //           VisualDensity.adaptivePlatformDensity,
-                      //       padding: EdgeInsets.zero,
-                      //       onPressed: () {},
-                      //       icon: const Icon(
-                      //         Icons.phone,
-                      //         color: Colors.black,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(width: 17),
-                      // Container(
-                      //   width: 45,
-                      //   height: 45,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(45),
-                      //     color: AppColors.greyC4,
-                      //   ),
-                      //   child: SizedBox(
-                      //     width: 24,
-                      //     height: 24,
-                      //     child: IconButton(
-                      //       visualDensity:
-                      //           VisualDensity.adaptivePlatformDensity,
-                      //       padding: EdgeInsets.zero,
-                      //       onPressed: () {},
-                      //       icon: const Icon(
-                      //         Icons.videocam,
-                      //         color: Colors.black,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
                     ],
                   ),
                   // SizedBox(height: 30.h),
