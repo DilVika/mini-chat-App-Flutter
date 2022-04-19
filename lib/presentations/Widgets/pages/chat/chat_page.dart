@@ -33,12 +33,13 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+            child: SafeArea(
+              bottom: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -81,43 +82,48 @@ class ChatPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 52),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
-                decoration: BoxDecoration(
-                  color: _theme.colorScheme.background,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(Dimensions.messageBubbleRadius),
-                    topRight: Radius.circular(Dimensions.messageBubbleRadius),
-                  ),
-                  boxShadow: [
-                    AppStyles.defaultBoxShadow(context),
-                  ],
+          ),
+          const SizedBox(height: 52),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.background,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(Dimensions.messageBubbleRadius),
+                  topRight: Radius.circular(Dimensions.messageBubbleRadius),
                 ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        itemCount: messages.length,
-                        itemBuilder: (c, i) {
-                          var showProfileBox = true;
-                          if (i != 0) {
-                            var currentChat = messages[i];
-                            var previousChat = messages[i - 1];
-                            showProfileBox =
-                                currentChat.isRight != previousChat.isRight;
-                          }
-                          return _buildChat(
-                            chat: messages[i],
-                            showProfileBox: showProfileBox,
-                          );
-                        },
-                      ),
+                boxShadow: [
+                  AppStyles.defaultBoxShadow(context),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      itemCount: messages.length,
+                      itemBuilder: (c, i) {
+                        var showProfileBox = true;
+                        if (i != 0) {
+                          var currentChat = messages[i];
+                          var previousChat = messages[i - 1];
+                          showProfileBox =
+                              currentChat.isRight != previousChat.isRight;
+                        }
+                        return _buildChat(
+                          chat: messages[i],
+                          showProfileBox: showProfileBox,
+                        );
+                      },
                     ),
-                    Container(
+                  ),
+                  SafeArea(
+                    top: false,
+                    left: false,
+                    right: false,
+                    child: Container(
                       margin: const EdgeInsets.only(top: 9, bottom: 9),
                       height: 50,
                       decoration: BoxDecoration(
@@ -128,8 +134,8 @@ class ChatPage extends StatelessWidget {
                         children: [
                           const SizedBox(width: Dimensions.defaultIconSize),
                           Expanded(
-                              child: TextField(
-                            decoration: InputDecoration(
+                            child: TextField(
+                          decoration: InputDecoration(
                               hintText: "Aaz",
                               isDense: true,
                               filled: true,
@@ -142,12 +148,13 @@ class ChatPage extends StatelessWidget {
                               focusedErrorBorder:
                                   AppStyles.focusedTransparentBorder,
                               errorStyle: errorTextStyle(context),
-                            ),
-                            onSubmitted: (value) {
+                          ),
+                          onSubmitted: (value) {
                               // Check which focus node is focused
                               print('ayo ${FocusScope.of(context).debugLabel}');
-                            },
-                          )),
+                          },
+                          ),
+                          ),
                           Container(
                             width: Dimensions.sendButtonSize,
                             height: Dimensions.sendButtonSize,
@@ -177,12 +184,12 @@ class ChatPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -21,4 +21,5 @@ ios/.generated/
 packages
 pubspec.lock
 .flutter-plugins
+.flutter-plugins-dependencies
 .dart_tool/

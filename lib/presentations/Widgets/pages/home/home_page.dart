@@ -27,233 +27,232 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: Dimensions.defaultPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Nerd Chat',
-                        style: _theme.textTheme.headlineSmall,
-                      ),
-                      SizedBox(
-                        width: Dimensions.defaultIconSize,
-                        height: Dimensions.defaultIconSize,
-                        child: CupertinoButton(
-                          //visualDensity: VisualDensity.adaptivePlatformDensity,
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            //TODO: Implement here
-                          },
-                          child: const Icon(
-                            Icons.logout_rounded,
-                            //color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: Dimensions.defaultVerticalPadding),
-                  Text('Last Contact', style: _theme.textTheme.titleSmall),
-                  const SizedBox(height: Dimensions.defaultVerticalPadding),
-                  SizedBox(
-                    height: Dimensions.sheetSmallHeight,
-                    width: Dimensions.sheetsmallWidth,
-                    child: ListView.separated(
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: names.length,
-                      itemBuilder: (c, i) {
-                        return SizedBox(
-                          width: Dimensions.avatarHolderSize,
-                          height: Dimensions.avatarHolderSize,
-                          child: Stack(
-                            fit: StackFit.loose,
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.smallRadius),
-                                  child: Container(
-                                    width: Dimensions.avatarSize,
-                                    height: Dimensions.avatarSize,
-                                    color: AppColors.greyC4,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  width: Dimensions.onlineDotRadius,
-                                  height: Dimensions.onlineDotRadius,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.onlineDotRadius),
-                                    color: AppColors.blue,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          width: Dimensions.defaultSpacing,
-                        );
-                      },
+      body: Column(
+        children: [
+          Padding(
+            padding: Dimensions.defaultPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Nerd Chat',
+                      style: _theme.textTheme.headlineSmall,
                     ),
+                    SizedBox(
+                      width: Dimensions.defaultIconSize,
+                      height: Dimensions.defaultIconSize,
+                      child: CupertinoButton(
+                        //visualDensity: VisualDensity.adaptivePlatformDensity,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          //TODO: Implement here
+                        },
+                        child: const Icon(
+                          Icons.logout_rounded,
+                          //color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: Dimensions.defaultVerticalPadding),
+                Text('Last Contact', style: _theme.textTheme.titleSmall),
+                const SizedBox(height: Dimensions.defaultVerticalPadding),
+                SizedBox(
+                  height: Dimensions.sheetSmallHeight,
+                  width: Dimensions.sheetsmallWidth,
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: names.length,
+                    itemBuilder: (c, i) {
+                      return SizedBox(
+                        width: Dimensions.avatarHolderSize,
+                        height: Dimensions.avatarHolderSize,
+                        child: Stack(
+                          fit: StackFit.loose,
+                          children: [
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.smallRadius),
+                                child: Container(
+                                  width: Dimensions.avatarSize,
+                                  height: Dimensions.avatarSize,
+                                  color: AppColors.greyC4,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: Container(
+                                width: Dimensions.onlineDotRadius,
+                                height: Dimensions.onlineDotRadius,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.onlineDotRadius),
+                                  color: AppColors.blue,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        width: Dimensions.defaultSpacing,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(24, 20, 26, 0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: _theme.colorScheme.shadow,
+                    spreadRadius: 0,
+                    blurRadius: 8,
+                    offset: const Offset(0, -4), // changes position of shadow
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: _theme.colorScheme.shadow,
-                      spreadRadius: 0,
-                      blurRadius: 8,
-                      offset: const Offset(0, -4), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: ListView.separated(
-                  itemCount: names.length,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  itemBuilder: (c, i) {
-                    return GestureDetector(
-                      onTap: () {
-                        // Push to chat screen with name.
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    ChatPage(title: names[i]),
-                            transitionDuration:
-                                AnimationConstants.defautTransitionDuration,
-                            reverseTransitionDuration:
-                                AnimationConstants.defautTransitionDuration,
-                            transitionsBuilder:
-                                (___, animation, ____, Widget child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child:
-                                    child, // child is the value returned by pageBuilder
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: SizedBox(
-                        key: ValueKey<int>(i),
-                        width: 340,
-                        height: 60,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                // margin: EdgeInsets.only(right: 14.w),
-                                color: AppColors.greyC4,
-                              ),
+              child: ListView.separated(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                itemCount: names.length,
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemBuilder: (c, i) {
+                  return GestureDetector(
+                    onTap: () {
+                      // Push to chat screen with name.
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ChatPage(title: names[i]),
+                          transitionDuration:
+                              AnimationConstants.defautTransitionDuration,
+                          reverseTransitionDuration:
+                              AnimationConstants.defautTransitionDuration,
+                          transitionsBuilder:
+                              (___, animation, ____, Widget child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child:
+                                  child, // child is the value returned by pageBuilder
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      key: ValueKey<int>(i),
+                      width: 340,
+                      height: 60,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              // margin: EdgeInsets.only(right: 14.w),
+                              color: AppColors.greyC4,
                             ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Expanded(
-                                        child: Hero(
-                                          flightShuttleBuilder:
-                                              // Implement flightShuttleBuilder
-                                              (
-                                            BuildContext flightContext,
-                                            Animation<double> animation,
-                                            HeroFlightDirection flightDirection,
-                                            BuildContext fromHeroContext,
-                                            BuildContext toHeroContext,
-                                          ) {
-                                            return DefaultTextStyleTransition(
-                                              style: TextStyleTween(
-                                                begin: DefaultTextStyle.of(
-                                                        fromHeroContext)
-                                                    .style,
-                                                end: DefaultTextStyle.of(
-                                                        toHeroContext)
-                                                    .style,
-                                              ).animate(animation),
-                                              child: toHeroContext.widget, //,
-                                            );
-                                          },
-                                          tag: names[i],
-                                          child: Text(
-                                            names[i],
-                                            style: _theme.textTheme.titleMedium,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Hero(
+                                        flightShuttleBuilder:
+                                            // Implement flightShuttleBuilder
+                                            (
+                                          BuildContext flightContext,
+                                          Animation<double> animation,
+                                          HeroFlightDirection flightDirection,
+                                          BuildContext fromHeroContext,
+                                          BuildContext toHeroContext,
+                                        ) {
+                                          return DefaultTextStyleTransition(
+                                            style: TextStyleTween(
+                                              begin: DefaultTextStyle.of(
+                                                      fromHeroContext)
+                                                  .style,
+                                              end: DefaultTextStyle.of(
+                                                      toHeroContext)
+                                                  .style,
+                                            ).animate(animation),
+                                            child: toHeroContext.widget, //,
+                                          );
+                                        },
+                                        tag: names[i],
+                                        child: Text(
+                                          names[i],
+                                          style: _theme.textTheme.titleMedium,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                      Text(
-                                        "14:23",
-                                        style: _theme.textTheme.labelLarge,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 3),
-                                  Text(
-                                    'lorem ispum',
-                                    style: _theme.textTheme.bodyMedium,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                    ),
+                                    Text(
+                                      "14:23",
+                                      style: _theme.textTheme.labelLarge,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  'lorem ispum',
+                                  style: _theme.textTheme.bodyMedium,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    );
-                  },
-                  separatorBuilder: (c, i) {
-                    return const SizedBox(height: 24);
-                  },
-                ),
+                    ),
+                  );
+                },
+                separatorBuilder: (c, i) {
+                  return const SizedBox(height: 24);
+                },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
