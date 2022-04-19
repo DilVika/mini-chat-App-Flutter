@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:mini_chat_app_flutter/theme.dart';
 
 import 'colors.dart';
 import 'dimensions.dart';
 
 class AppStyles {
-  static var addressBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(Dimensions.radius),
+  static final addressBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(Dimensions.smallRadius),
     borderSide: const BorderSide(color: AppColors.greyC4),
   );
-  static var underLineBorder = const UnderlineInputBorder(
+  static const underLineBorder = UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.white),
   );
 
-  static var focusedTransparentBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(Dimensions.radius),
+  static final focusedTransparentBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(Dimensions.smallRadius),
     borderSide: const BorderSide(color: Colors.transparent),
   );
-  static var energyBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(Dimensions.radius),
+  static final energyBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(Dimensions.smallRadius),
     borderSide: const BorderSide(color: Colors.transparent),
   );
+
+  static defaultBoxShadow(context) => BoxShadow(
+        color: Theme.of(context).colorScheme.shadow,
+        spreadRadius: 0,
+        blurRadius: 8,
+        offset: const Offset(0, -4), // changes position of shadow
+      );
 }
 
 errorTextStyle(context) => TextStyle(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../resources/styles.dart';
 import '/resources/resources.dart';
 
 class ChatPage extends StatelessWidget {
+  final String title;
   const ChatPage({
     Key? key,
+    required this.title,
   }) : super(key: key);
 
   static List<MessageModel> messages = [
@@ -41,72 +41,33 @@ class ChatPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: IconButton(
-                        visualDensity: VisualDensity.adaptivePlatformDensity,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  // TextFormField(
-                  //   readOnly: true,
-                  //   //false
-                  //   autofocus: false,
-                  //   // style: ,
-                  //   decoration: InputDecoration(
-                  //     prefixIcon: Container(
-                  //       // color: Colors.blue,
-                  //       padding: EdgeInsets.only(
-                  //         left: 9,
-                  //       ),
-                  //       child: const Icon(Icons.search, color: Colors.black),
-                  //     ),
-                  //     prefixIconConstraints: BoxConstraints(
-                  //         minHeight: 24,
-                  //         maxHeight: 24,
-                  //         minWidth: 41,
-                  //         maxWidth: 41),
-                  //     hintText: "Search conversations",
-                  //     // hintStyle: textFieldPlaceholderTextStyle(context),
-                  //     isDense: true,
-                  //     filled: true,
-                  //     fillColor: AppColors.greyC4,
-                  //     focusedBorder: AppStyles.focusedTransparentBorder,
-                  //     disabledBorder: AppStyles.focusedTransparentBorder,
-                  //     enabledBorder: AppStyles.focusedTransparentBorder,
-                  //     errorBorder: AppStyles.focusedTransparentBorder,
-                  //     focusedErrorBorder: AppStyles.focusedTransparentBorder,
-                  //     errorStyle: errorTextStyle(context),
-                  //   ),
-                  //   textInputAction: TextInputAction.next,
-                  //   keyboardType: TextInputType.text,
-                  //   onSaved: (val) {},
-                  //   onEditingComplete: () {},
-                  //   onChanged: (val) {},
-                  //   // validator: (val) {},
-                  //   onTap: () {},
-                  // ),
-                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: Dimensions.defaultIconSize,
+                          height: Dimensions.defaultIconSize,
+                          child: IconButton(
+                            visualDensity:
+                                VisualDensity.adaptivePlatformDensity,
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: Dimensions.defaultSpacing),
                       Expanded(
                         child: Hero(
-                          tag: "Justin Wan",
+                          tag: title,
                           child: Text(
-                            "Justin Wan",
+                            title,
                             style: _theme.textTheme.headlineSmall,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -124,18 +85,13 @@ class ChatPage extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(24, 44, 26, 0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: _theme.colorScheme.background,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+                    topLeft: Radius.circular(Dimensions.messageBubbleRadius),
+                    topRight: Radius.circular(Dimensions.messageBubbleRadius),
                   ),
                   boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xffC4C4C4).withOpacity(0.25),
-                      spreadRadius: 0,
-                      blurRadius: 8,
-                      offset: const Offset(0, -4), // changes position of shadow
-                    ),
+                    AppStyles.defaultBoxShadow(context),
                   ],
                 ),
                 child: Column(
@@ -169,51 +125,41 @@ class ChatPage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          const SizedBox(width: 25),
+                          const SizedBox(width: Dimensions.defaultIconSize),
                           Expanded(
-                            child: TextFormField(
-                              readOnly: true,
-                              //false
-                              autofocus: false,
-                              // style: ,
-                              decoration: InputDecoration(
-                                hintText: "Aa",
-                                // hintStyle: textFieldPlaceholderTextStyle(context),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.greyC4,
-                                focusedBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                disabledBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                enabledBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                errorBorder: AppStyles.focusedTransparentBorder,
-                                focusedErrorBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                errorStyle: errorTextStyle(context),
-                              ),
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.text,
-                              onSaved: (val) {},
-                              onEditingComplete: () {},
-                              onChanged: (val) {},
-                              // validator: (val) {},
-                              onTap: () {},
+                              child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "Aaz",
+                              isDense: true,
+                              filled: true,
+                              fillColor: AppColors.greyC4,
+                              focusedBorder: AppStyles.focusedTransparentBorder,
+                              disabledBorder:
+                                  AppStyles.focusedTransparentBorder,
+                              enabledBorder: AppStyles.focusedTransparentBorder,
+                              errorBorder: AppStyles.focusedTransparentBorder,
+                              focusedErrorBorder:
+                                  AppStyles.focusedTransparentBorder,
+                              errorStyle: errorTextStyle(context),
                             ),
-                          ),
+                            onSubmitted: (value) {
+                              // Check which focus node is focused
+                              print('ayo ${FocusScope.of(context).debugLabel}');
+                            },
+                          )),
                           Container(
-                            width: 45,
-                            height: 45,
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 2),
+                            width: Dimensions.sendButtonSize,
+                            height: Dimensions.sendButtonSize,
+                            margin: const EdgeInsets.all(
+                                Dimensions.buttonExtraSmallPaddingSize),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(45),
-                              color: const Color(0xffF4F4F4),
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.largeRadius),
+                              color: _theme.colorScheme.primary,
                             ),
                             child: SizedBox(
-                              width: 24,
-                              height: 24,
+                              width: Dimensions.defaultIconSize,
+                              height: Dimensions.defaultIconSize,
                               child: IconButton(
                                 visualDensity:
                                     VisualDensity.adaptivePlatformDensity,
@@ -221,7 +167,6 @@ class ChatPage extends StatelessWidget {
                                 onPressed: () {},
                                 icon: const Icon(
                                   Icons.send,
-                                  color: Colors.black,
                                 ),
                               ),
                             ),
@@ -240,80 +185,39 @@ class ChatPage extends StatelessWidget {
   }
 
   _buildChat({required MessageModel chat, required bool showProfileBox}) {
-    return chat.isRight
-        ? Container(
-            margin: const EdgeInsets.only(bottom: 42),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(chat.time),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
-                          decoration: const BoxDecoration(
-                            color: Color(0xffD0D0D0),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            ),
-                          ),
-                          child: Text(
-                            chat.text,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        : Container(
-            margin: const EdgeInsets.only(bottom: 42),
-            child: IntrinsicHeight(
+    return Builder(builder: (context) {
+      final theme = Theme.of(context);
+      return chat.isRight
+          ? Container(
+              margin: const EdgeInsets.only(bottom: 42),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Visibility(
-                    visible: showProfileBox,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    maintainSize: true,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        color: const Color(0xffD0D0D0),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      chat.time,
+                      style: theme.textTheme.labelLarge,
                     ),
                   ),
-                  const SizedBox(width: 21),
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Flexible(
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
-                            decoration: const BoxDecoration(
-                              color: Color(0xffD0D0D0),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
+                            decoration: BoxDecoration(
+                              color: theme.primaryColor,
+                              borderRadius: const BorderRadius.only(
+                                topLeft:
+                                    Radius.circular(Dimensions.mediumRadius),
+                                topRight:
+                                    Radius.circular(Dimensions.mediumRadius),
+                                bottomLeft:
+                                    Radius.circular(Dimensions.mediumRadius),
                               ),
                             ),
                             child: Text(
@@ -323,27 +227,84 @@ class ChatPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: showProfileBox,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        maintainSize: true,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(chat.time),
-                        ),
-                      )
-                    ],
-                  ),
+                  )
                 ],
               ),
-            ),
-          );
+            )
+          : Container(
+              margin: const EdgeInsets.only(bottom: 42),
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: showProfileBox,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      maintainSize: true,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          width: Dimensions.profileBoxSize,
+                          height: Dimensions.profileBoxSize,
+                          color: theme.hoverColor,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 21),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(18, 13, 18, 12),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.tertiary,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft:
+                                      Radius.circular(Dimensions.mediumRadius),
+                                  topRight:
+                                      Radius.circular(Dimensions.mediumRadius),
+                                  bottomRight:
+                                      Radius.circular(Dimensions.mediumRadius),
+                                ),
+                              ),
+                              child: Text(
+                                chat.text,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                          visible: showProfileBox,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          maintainSize: true,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              chat.time,
+                              style: theme.textTheme.labelLarge,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+    });
   }
 }
 

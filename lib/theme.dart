@@ -18,9 +18,11 @@ class AppTheme {
         onSurface: AppColors.white,
         secondary: AppColors.ogrange,
         surface: AppColors.lighterBlue,
+        shadow: AppColors.lightGray,
       ),
       primarySwatch: Colors.blueGrey,
       scaffoldBackgroundColor: AppColors.darkBlue,
+      hoverColor: AppColors.lightGray, // Placeholder color
 
       // Text Theme
       textTheme: AppTextTheme.defaultTextTheme,
@@ -62,19 +64,19 @@ class AppTextTheme {
         displayColor: AppColors.white,
       )
       .copyWith(
-        headlineSmall: TextStyle(
+        headlineSmall: const TextStyle(
           fontSize: Dimensions.largeTextSize,
           fontStyle: FontStyle.normal,
           color: AppColors.white,
           fontWeight: FontWeight.w600,
         ),
-        titleSmall: TextStyle(
+        titleSmall: const TextStyle(
           fontSize: Dimensions.smallTextSize,
           fontStyle: FontStyle.normal,
           color: AppColors.white,
           fontWeight: FontWeight.w600,
         ),
-        titleMedium: TextStyle(
+        titleMedium: const TextStyle(
           fontSize: Dimensions.defaultTextSize,
           fontStyle: FontStyle.normal,
           color: AppColors.black,
@@ -82,10 +84,17 @@ class AppTextTheme {
         ),
 
         //bodyMedium  with black color
-        bodyMedium: TextStyle(
+        bodyMedium: const TextStyle(
           fontSize: Dimensions.smallTextSize,
           fontStyle: FontStyle.normal,
           color: AppColors.black,
+          fontWeight: FontWeight.w400,
+        ),
+        //Label Lagrge with black color
+        labelLarge: const TextStyle(
+          fontSize: Dimensions.smallTextSize,
+          fontStyle: FontStyle.normal,
+          color: AppColors.greyMinor,
           fontWeight: FontWeight.w400,
         ),
       );

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mini_chat_app_flutter/presentations/Widgets/pages/chat/chat_page.dart';
+
+import '/presentations/Widgets/pages/chat/chat_page.dart';
 
 // Import resource.dart relatives path
 import '/resources/resources.dart';
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 54, 24, 29),
+              padding: Dimensions.defaultPadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -52,62 +52,19 @@ class HomePage extends StatelessWidget {
                             //TODO: Implement here
                           },
                           child: const Icon(
-                            Icons.add_circle,
+                            Icons.logout_rounded,
                             //color: Colors.white,
                           ),
                         ),
                       )
                     ],
                   ),
-
-                  /// Search bar: Temporary disabled.
-                  // const SizedBox(height: 22),
-                  // TextFormField(
-                  //   readOnly: true, //false
-                  //   autofocus: false,
-                  //   // style: ,
-                  //   decoration: InputDecoration(
-                  //     prefixIcon: const Padding(
-                  //       padding: EdgeInsets.symmetric(horizontal: 8),
-                  //       child: Icon(Icons.search, color: Colors.black),
-                  //     ),
-                  //     prefixIconConstraints:
-                  //         const BoxConstraints(maxHeight: 20, maxWidth: 35),
-                  //     hintText: "Contacts",
-                  //     // hintStyle: textFieldPlaceholderTextStyle(context),
-                  //     isDense: true,
-                  //     filled: true,
-                  //     fillColor: AppColors.greyC4,
-                  //     focusedBorder: AppStyles.focusedTransparentBorder,
-                  //     disabledBorder: AppStyles.focusedTransparentBorder,
-                  //     enabledBorder: AppStyles.focusedTransparentBorder,
-                  //     errorBorder: AppStyles.focusedTransparentBorder,
-                  //     focusedErrorBorder: AppStyles.focusedTransparentBorder,
-                  //     errorStyle: errorTextStyle(context),
-                  //   ),
-                  //   textInputAction: TextInputAction.next,
-                  //   keyboardType: TextInputType.text,
-                  //   onSaved: (val) {},
-                  //   onEditingComplete: () {},
-                  //   onChanged: (val) {},
-                  //   // validator: (val) {},
-                  //   onTap: () {},
-                  // ),
-                  const SizedBox(height: 30),
-                  Text('Last Contact', style: _theme.textTheme.titleSmall
-                      // style: GoogleFonts.workSans(
-                      //   textStyle: const TextStyle(
-                      //     fontSize: 14,
-                      //     color: Colors.black,
-                      //     fontStyle: FontStyle.normal,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                      ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: Dimensions.defaultVerticalPadding),
+                  Text('Last Contact', style: _theme.textTheme.titleSmall),
+                  const SizedBox(height: Dimensions.defaultVerticalPadding),
                   SizedBox(
-                    height: 60,
-                    width: 359,
+                    height: Dimensions.sheetSmallHeight,
+                    width: Dimensions.sheetsmallWidth,
                     child: ListView.separated(
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
@@ -115,8 +72,8 @@ class HomePage extends StatelessWidget {
                       itemCount: names.length,
                       itemBuilder: (c, i) {
                         return SizedBox(
-                          width: 59,
-                          height: 59,
+                          width: Dimensions.avatarHolderSize,
+                          height: Dimensions.avatarHolderSize,
                           child: Stack(
                             fit: StackFit.loose,
                             children: [
@@ -124,10 +81,11 @@ class HomePage extends StatelessWidget {
                                 left: 0,
                                 top: 0,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.smallRadius),
                                   child: Container(
-                                    width: 56,
-                                    height: 56,
+                                    width: Dimensions.avatarSize,
+                                    height: Dimensions.avatarSize,
                                     color: AppColors.greyC4,
                                   ),
                                 ),
@@ -136,11 +94,12 @@ class HomePage extends StatelessWidget {
                                 right: 0,
                                 bottom: 0,
                                 child: Container(
-                                  width: 18,
-                                  height: 18,
+                                  width: Dimensions.onlineDotRadius,
+                                  height: Dimensions.onlineDotRadius,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.onlineDotRadius),
+                                    color: AppColors.blue,
                                   ),
                                 ),
                               ),
@@ -150,7 +109,7 @@ class HomePage extends StatelessWidget {
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return const SizedBox(
-                          width: 16,
+                          width: Dimensions.defaultSpacing,
                         );
                       },
                     ),
@@ -169,7 +128,7 @@ class HomePage extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xffC4C4C4).withOpacity(0.25),
+                      color: _theme.colorScheme.shadow,
                       spreadRadius: 0,
                       blurRadius: 8,
                       offset: const Offset(0, -4), // changes position of shadow
@@ -188,9 +147,11 @@ class HomePage extends StatelessWidget {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    const ChatPage(),
-                            transitionDuration: Duration(seconds: 2),
-                            reverseTransitionDuration: Duration(seconds: 3),
+                                    ChatPage(title: names[i]),
+                            transitionDuration:
+                                AnimationConstants.defautTransitionDuration,
+                            reverseTransitionDuration:
+                                AnimationConstants.defautTransitionDuration,
                             transitionsBuilder:
                                 (___, animation, ____, Widget child) {
                               return FadeTransition(
@@ -234,28 +195,27 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Hero(
-                                          // flightShuttleBuilder:
-                                          //     // Implement flightShuttleBuilder
-                                          //     (
-                                          //   BuildContext flightContext,
-                                          //   Animation<double> animation,
-                                          //   HeroFlightDirection flightDirection,
-                                          //   BuildContext fromHeroContext,
-                                          //   BuildContext toHeroContext,
-                                          // ) {
-                                          //   //return widget(child: fromHeroContext.widget);
-                                          //   return DefaultTextStyleTransition(
-                                          //     style: Tween<TextStyle>(
-                                          //       begin: DefaultTextStyle.of(
-                                          //               fromHeroContext)
-                                          //           .style,
-                                          //       end: DefaultTextStyle.of(
-                                          //               toHeroContext)
-                                          //           .style,
-                                          //     ).animate(animation),
-                                          //     child: toHeroContext.widget, //,
-                                          //   );
-                                          // },
+                                          flightShuttleBuilder:
+                                              // Implement flightShuttleBuilder
+                                              (
+                                            BuildContext flightContext,
+                                            Animation<double> animation,
+                                            HeroFlightDirection flightDirection,
+                                            BuildContext fromHeroContext,
+                                            BuildContext toHeroContext,
+                                          ) {
+                                            return DefaultTextStyleTransition(
+                                              style: TextStyleTween(
+                                                begin: DefaultTextStyle.of(
+                                                        fromHeroContext)
+                                                    .style,
+                                                end: DefaultTextStyle.of(
+                                                        toHeroContext)
+                                                    .style,
+                                              ).animate(animation),
+                                              child: toHeroContext.widget, //,
+                                            );
+                                          },
                                           tag: names[i],
                                           child: Text(
                                             names[i],
@@ -267,7 +227,7 @@ class HomePage extends StatelessWidget {
                                       ),
                                       Text(
                                         "14:23",
-                                        style: _theme.textTheme.subtitle1,
+                                        style: _theme.textTheme.labelLarge,
                                       ),
                                     ],
                                   ),
