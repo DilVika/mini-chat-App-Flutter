@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '/resources/resources.dart';
@@ -155,17 +156,19 @@ class ChatPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(Dimensions.largeRadius),
-                              color: _theme.colorScheme.primary,
                             ),
                             child: SizedBox(
                               width: Dimensions.defaultIconSize,
                               height: Dimensions.defaultIconSize,
-                              child: IconButton(
-                                visualDensity:
-                                    VisualDensity.adaptivePlatformDensity,
+                              child: CupertinoButton.filled(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.largeRadius),
+
+                                //visualDensity:
+                                //VisualDensity.adaptivePlatformDensity,
                                 padding: EdgeInsets.zero,
                                 onPressed: () {},
-                                icon: const Icon(
+                                child: const Icon(
                                   Icons.send,
                                 ),
                               ),
