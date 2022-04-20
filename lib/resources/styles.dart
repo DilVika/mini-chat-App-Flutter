@@ -22,7 +22,7 @@ class AppStyles {
     borderSide: const BorderSide(color: Colors.transparent),
   );
 
-  static defaultBoxShadow(context) => BoxShadow(
+  static BoxShadow defaultBoxShadow(context) => BoxShadow(
         color: Theme.of(context).colorScheme.shadow,
         spreadRadius: 0,
         blurRadius: 8,

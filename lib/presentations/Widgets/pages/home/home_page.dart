@@ -37,9 +37,12 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Nerd Chat',
-                      style: _theme.textTheme.headlineSmall,
+                    Hero(
+                      tag: AnimationConstants.titleHeroTag,
+                      child: Text(
+                        'Nerd Chat',
+                        style: _theme.textTheme.headlineSmall,
+                      ),
                     ),
                     SizedBox(
                       width: Dimensions.defaultIconSize,
@@ -135,7 +138,8 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               child: ListView.separated(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 itemCount: names.length,
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
@@ -183,8 +187,7 @@ class HomePage extends StatelessWidget {
                           Expanded(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(

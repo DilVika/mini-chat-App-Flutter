@@ -4,6 +4,7 @@ class Dimensions {
   static const defaultTextSize = 16.00;
   static const smallTextSize = 14.00;
   static const extraSmallTextSize = 12.00;
+  static const mediumTextSize = 22.00;
   static const largeTextSize = 28.00;
   static const extraLargeTextSize = 30.00;
 
@@ -25,6 +26,10 @@ class Dimensions {
   static const smallRadius = 10.00;
   static const mediumRadius = 20.00;
   static const largeRadius = 45.00;
+
+  // Message Bubble
+  static const messageBubbleInternalPadding = 10.00;
+  static const messageBubbleExternalPadding = 42.00;
 
   static const defaultPadding = EdgeInsets.fromLTRB(24, 54, 24, 29);
 }

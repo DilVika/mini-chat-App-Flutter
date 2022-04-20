@@ -37,13 +37,7 @@ class _MyAppState extends State<MyApp> {
     // return ScreenUtilInit(builder: (context) {
     return GestureDetector(
       onTap: () {
-        print('tap');
-        // unfocus current node in FocusScope
-        FocusScope.of(context).unfocus();
-        _focusNode.requestFocus();
-        print(
-            'hasFocus: ${_focusNode.hasFocus}, debugLabel: ${_focusNode.debugLabel}');
-        print('ayo ${FocusScope.of(context).debugLabel}');
+        FocusScope.of(context).requestFocus(_focusNode);
       },
       child: MaterialApp(
         title: UI.appName,
