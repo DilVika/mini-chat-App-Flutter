@@ -58,160 +58,164 @@ class ChatPage extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.defaultVerticalPadding),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(
-                  24, Dimensions.defaultSpacing, 26, 0),
-              decoration: BoxDecoration(
-                color: _theme.colorScheme.background,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(Dimensions.messageBubbleRadius),
-                  topRight: Radius.circular(Dimensions.messageBubbleRadius),
-                ),
-                boxShadow: [
-                  AppStyles.defaultBoxShadow(context),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+            child: Hero(
+              tag: title,
+              child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(
+                      24, Dimensions.defaultSpacing, 26, 0),
+                  decoration: BoxDecoration(
+                    color: _theme.colorScheme.background,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(Dimensions.messageBubbleRadius),
+                      topRight: Radius.circular(Dimensions.messageBubbleRadius),
+                    ),
+                    boxShadow: [
+                      AppStyles.defaultBoxShadow(context),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SizedBox(
-                          width: Dimensions.defaultIconSize,
-                          height: Dimensions.defaultIconSize,
-                          child: CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: _theme.colorScheme.primary,
+                      Flexible(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: Dimensions.defaultIconSize,
+                              height: Dimensions.defaultIconSize,
+                              child: CupertinoButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: _theme.colorScheme.primary,
+                                ),
+                              ),
                             ),
-                          ),
+                            const SizedBox(width: Dimensions.defaultSpacing),
+                            Expanded(
+                              child: Text(
+                                title,
+                                style:
+                                    _theme.textTheme.headlineMedium?.copyWith(
+                                  color: _theme.colorScheme.primary,
+                                  fontSize: Dimensions.defaultIconSize,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: Dimensions.defaultSpacing),
+                      // const SizedBox(
+                      //     height: Dimensions.messageBubbleInternalPadding),
                       Expanded(
-                        child: Hero(
-                          tag: title,
-                          child: Text(
-                            title,
-                            style: _theme.textTheme.headlineMedium?.copyWith(
-                              color: _theme.colorScheme.primary,
-                              fontSize: Dimensions.defaultIconSize,
+                        flex: 10,
+                        child: ListView.separated(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: messages.length,
+                          itemBuilder: (c, i) {
+                            var showProfileBox = true;
+                            if (i != 0) {
+                              var currentChat = messages[i];
+                              var previousChat = messages[i - 1];
+                              showProfileBox =
+                                  currentChat.isRight != previousChat.isRight;
+                            }
+                            return _ChatBubble(
+                              chat: messages[i],
+                              showProfileBox: showProfileBox,
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            if (messages[index].isRight !=
+                                messages[index + 1].isRight) {
+                              return const SizedBox(
+                                height: Dimensions.messageBubbleExternalPadding,
+                              );
+                            } else {
+                              // Different sender
+                              return const SizedBox(
+                                height: Dimensions.messageBubbleInternalPadding,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      //Spacer(),
+                      Container(
+                        margin: const EdgeInsets.only(top: 9, bottom: 9),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: AppColors.greyC4,
+                        ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: Dimensions.defaultIconSize),
+                            Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Aa",
+                                  isDense: true,
+                                  filled: true,
+                                  fillColor: AppColors.greyC4,
+                                  focusedBorder:
+                                      AppStyles.focusedTransparentBorder,
+                                  disabledBorder:
+                                      AppStyles.focusedTransparentBorder,
+                                  enabledBorder:
+                                      AppStyles.focusedTransparentBorder,
+                                  errorBorder:
+                                      AppStyles.focusedTransparentBorder,
+                                  focusedErrorBorder:
+                                      AppStyles.focusedTransparentBorder,
+                                  errorStyle: errorTextStyle(context),
+                                ),
+                                onSubmitted: (value) {
+                                  // Check which focus node is focused
+                                  print(
+                                      'ayo ${FocusScope.of(context).debugLabel}');
+                                },
+                              ),
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                            Container(
+                              width: Dimensions.sendButtonSize,
+                              height: Dimensions.sendButtonSize,
+                              margin: const EdgeInsets.all(
+                                  Dimensions.buttonExtraSmallPaddingSize),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.largeRadius),
+                              ),
+                              child: SizedBox(
+                                width: Dimensions.defaultIconSize,
+                                height: Dimensions.defaultIconSize,
+                                child: CupertinoButton.filled(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.largeRadius),
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {},
+                                  child: const Icon(
+                                    Icons.send,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                      height: Dimensions.messageBubbleInternalPadding),
-                  Expanded(
-                    child: ListView.separated(
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      itemCount: messages.length,
-                      itemBuilder: (c, i) {
-                        var showProfileBox = true;
-                        if (i != 0) {
-                          var currentChat = messages[i];
-                          var previousChat = messages[i - 1];
-                          showProfileBox =
-                              currentChat.isRight != previousChat.isRight;
-                        }
-                        return _buildChat(
-                          chat: messages[i],
-                          showProfileBox: showProfileBox,
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        if (messages[index].isRight !=
-                            messages[index + 1].isRight) {
-                          return const SizedBox(
-                            height: Dimensions.messageBubbleExternalPadding,
-                          );
-                        } else {
-                          // Different sender
-                          return const SizedBox(
-                            height: Dimensions.messageBubbleInternalPadding,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  SafeArea(
-                    top: false,
-                    left: false,
-                    right: false,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 9, bottom: 9),
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: AppColors.greyC4,
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: Dimensions.defaultIconSize),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Aa",
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.greyC4,
-                                focusedBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                disabledBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                enabledBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                errorBorder: AppStyles.focusedTransparentBorder,
-                                focusedErrorBorder:
-                                    AppStyles.focusedTransparentBorder,
-                                errorStyle: errorTextStyle(context),
-                              ),
-                              onSubmitted: (value) {
-                                // Check which focus node is focused
-                                print(
-                                    'ayo ${FocusScope.of(context).debugLabel}');
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: Dimensions.sendButtonSize,
-                            height: Dimensions.sendButtonSize,
-                            margin: const EdgeInsets.all(
-                                Dimensions.buttonExtraSmallPaddingSize),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.largeRadius),
-                            ),
-                            child: SizedBox(
-                              width: Dimensions.defaultIconSize,
-                              height: Dimensions.defaultIconSize,
-                              child: CupertinoButton.filled(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.largeRadius),
-                                padding: EdgeInsets.zero,
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.send,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -219,37 +223,93 @@ class ChatPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  _buildChat({required MessageModel chat, required bool showProfileBox}) {
-    return Builder(builder: (context) {
-      final theme = Theme.of(context);
-      return chat.isRight
-          ? Row(
+class _ChatBubble extends StatelessWidget {
+  final MessageModel chat;
+  final bool showProfileBox;
+
+  const _ChatBubble(
+      {Key? key, required this.chat, required this.showProfileBox})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return chat.isRight
+        ? Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  chat.time,
+                  style: theme.textTheme.labelLarge,
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
+                        decoration: BoxDecoration(
+                          color: theme.primaryColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(Dimensions.mediumRadius),
+                            topRight: Radius.circular(Dimensions.mediumRadius),
+                            bottomLeft:
+                                Radius.circular(Dimensions.mediumRadius),
+                          ),
+                        ),
+                        child: Text(
+                          chat.text,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : IntrinsicHeight(
+            child: Row(
               mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    chat.time,
-                    style: theme.textTheme.labelLarge,
+                Visibility(
+                  visible: showProfileBox,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  maintainSize: true,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      width: Dimensions.profileBoxSize,
+                      height: Dimensions.profileBoxSize,
+                      color: theme.hoverColor,
+                    ),
                   ),
                 ),
+                const SizedBox(width: 21),
                 Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Flexible(
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
                           decoration: BoxDecoration(
-                            color: theme.primaryColor,
+                            color: theme.colorScheme.tertiary,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(Dimensions.mediumRadius),
                               topRight:
                                   Radius.circular(Dimensions.mediumRadius),
-                              bottomLeft:
+                              bottomRight:
                                   Radius.circular(Dimensions.mediumRadius),
                             ),
                           ),
@@ -260,79 +320,29 @@ class ChatPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
-              ],
-            )
-          : IntrinsicHeight(
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Visibility(
-                    visible: showProfileBox,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    maintainSize: true,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        width: Dimensions.profileBoxSize,
-                        height: Dimensions.profileBoxSize,
-                        color: theme.hoverColor,
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: showProfileBox,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      maintainSize: true,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          chat.time,
+                          style: theme.textTheme.labelLarge,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 21),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(18, 13, 18, 12),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.tertiary,
-                              borderRadius: const BorderRadius.only(
-                                topLeft:
-                                    Radius.circular(Dimensions.mediumRadius),
-                                topRight:
-                                    Radius.circular(Dimensions.mediumRadius),
-                                bottomRight:
-                                    Radius.circular(Dimensions.mediumRadius),
-                              ),
-                            ),
-                            child: Text(
-                              chat.text,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: showProfileBox,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        maintainSize: true,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            chat.time,
-                            style: theme.textTheme.labelLarge,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            );
-    });
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
   }
 }
 
