@@ -3,31 +3,61 @@ import 'package:flutter/material.dart';
 
 import '/resources/resources.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   final String title;
   const ChatPage({
     Key? key,
     required this.title,
   }) : super(key: key);
 
-  static List<MessageModel> messages = [
-    MessageModel(
-        text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
-        isRight: false,
-        time: "08:30"),
-    MessageModel(
-        text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
-        isRight: false,
-        time: "08:30"),
-    MessageModel(
-        text: "Lorem ipsum dolor amet, consectetur.",
-        isRight: true,
-        time: "08:30"),
-    MessageModel(text: "Consectetur", isRight: false, time: "08:30"),
-    MessageModel(text: "ipsum .", isRight: true, time: "08:30")
-  ];
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  late List<MessageModel> messages;
+  final TextEditingController _textController = TextEditingController();
+
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  //init state
+  @override
+  void initState() {
+    super.initState();
+
+//TODO: Mock Messages
+    messages = [
+      MessageModel(
+          text:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
+          isRight: false,
+          time: "08:30"),
+      MessageModel(
+          text:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
+          isRight: false,
+          time: "08:30"),
+      MessageModel(
+          text: "Lorem ipsum dolor amet, consectetur.",
+          isRight: true,
+          time: "08:30"),
+      MessageModel(text: "Consectetur", isRight: false, time: "08:30"),
+      MessageModel(text: "ipsum .", isRight: true, time: "08:30")
+    ];
+  }
+
+  void _sendMessage() {
+    if (_textController.text.isNotEmpty) {
+      // setState(() {
+      messages.add(MessageModel(
+          text: _textController.text,
+          isRight: true,
+          time: DateTime.now().hour.toString()));
+
+      _listKey.currentState?.insertItem(messages.length - 1);
+      _textController.clear();
+      // });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +89,7 @@ class ChatPage extends StatelessWidget {
           const SizedBox(height: Dimensions.defaultVerticalPadding),
           Expanded(
             child: Hero(
-              tag: title,
+              tag: widget.title,
               child: Material(
                 type: MaterialType.transparency,
                 child: Container(
@@ -101,7 +131,7 @@ class ChatPage extends StatelessWidget {
                             const SizedBox(width: Dimensions.defaultSpacing),
                             Expanded(
                               child: Text(
-                                title,
+                                widget.title,
                                 style:
                                     _theme.textTheme.headlineMedium?.copyWith(
                                   color: _theme.colorScheme.primary,
@@ -118,11 +148,12 @@ class ChatPage extends StatelessWidget {
                       //     height: Dimensions.messageBubbleInternalPadding),
                       Expanded(
                         flex: 10,
-                        child: ListView.separated(
+                        child: AnimatedList(
+                          key: _listKey,
                           physics: const BouncingScrollPhysics(
                               parent: AlwaysScrollableScrollPhysics()),
-                          itemCount: messages.length,
-                          itemBuilder: (c, i) {
+                          initialItemCount: messages.length,
+                          itemBuilder: (c, i, animation) {
                             var showProfileBox = true;
                             if (i != 0) {
                               var currentChat = messages[i];
@@ -130,24 +161,39 @@ class ChatPage extends StatelessWidget {
                               showProfileBox =
                                   currentChat.isRight != previousChat.isRight;
                             }
-                            return _ChatBubble(
-                              chat: messages[i],
-                              showProfileBox: showProfileBox,
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0, -1),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: (((i + 1) < messages.length) &&
+                                            messages[i].isRight !=
+                                                messages[i + 1].isRight)
+                                        ? Dimensions
+                                            .messageBubbleExternalPadding
+                                        : Dimensions
+                                            .messageBubbleInternalPadding),
+                                child: _ChatBubble(
+                                  chat: messages[i],
+                                  showProfileBox: showProfileBox,
+                                ),
+                              ),
                             );
                           },
-                          separatorBuilder: (BuildContext context, int index) {
-                            if (messages[index].isRight !=
-                                messages[index + 1].isRight) {
-                              return const SizedBox(
-                                height: Dimensions.messageBubbleExternalPadding,
-                              );
-                            } else {
-                              // Different sender
-                              return const SizedBox(
-                                height: Dimensions.messageBubbleInternalPadding,
-                              );
-                            }
-                          },
+                          // separatorBuilder: (BuildContext context, int index) {
+                          //   if (messages[index].isRight !=
+                          //       messages[index + 1].isRight) {
+                          //     return const SizedBox(
+                          //       height: Dimensions.messageBubbleExternalPadding,
+                          //     );
+                          //   } else {
+                          //     // Different sender
+                          //     return const SizedBox(
+                          //       height: Dimensions.messageBubbleInternalPadding,
+                          //     );
+                          //   }
                         ),
                       ),
                       //Spacer(),
@@ -163,6 +209,7 @@ class ChatPage extends StatelessWidget {
                             const SizedBox(width: Dimensions.defaultIconSize),
                             Expanded(
                               child: TextField(
+                                controller: _textController,
                                 decoration: InputDecoration(
                                   hintText: "Aa",
                                   isDense: true,
@@ -182,8 +229,9 @@ class ChatPage extends StatelessWidget {
                                 ),
                                 onSubmitted: (value) {
                                   // Check which focus node is focused
-                                  print(
-                                      'ayo ${FocusScope.of(context).debugLabel}');
+                                  // Print submited notification to console
+                                  print('submited: ${_textController.text}');
+                                  _sendMessage();
                                 },
                               ),
                             ),
@@ -203,7 +251,10 @@ class ChatPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(
                                       Dimensions.largeRadius),
                                   padding: EdgeInsets.zero,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    print('send button pressed');
+                                    _sendMessage();
+                                  },
                                   child: const Icon(
                                     Icons.send,
                                   ),
@@ -365,11 +416,23 @@ class UserModel {
 class MessageModel {
   final String text;
 
+  final MessageStatus status;
+
   /// Time and is right is supposed to be calculated from chat model,
   /// these wew used here to increase speed, it ca be improved at a later
   /// time
   final String time;
   final bool isRight;
 
-  MessageModel({required this.text, required this.time, required this.isRight});
+  MessageModel(
+      {required this.text,
+      required this.time,
+      this.status = MessageStatus.sent,
+      required this.isRight});
+}
+
+enum MessageStatus {
+  sending,
+  sent,
+  failed,
 }

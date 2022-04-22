@@ -12,6 +12,7 @@ class Dimensions {
   static const buttonExtraSmallPaddingSize = 2.00;
   static const defaultIconSize = 24.00;
   static const defaultVerticalPadding = 24.00;
+  static const defaultHorizontalPadding = 24.00;
   static const defaultSpacing = 16.00;
   static const avatarHolderSize = 59.00;
   static const avatarSize = 56.00;
