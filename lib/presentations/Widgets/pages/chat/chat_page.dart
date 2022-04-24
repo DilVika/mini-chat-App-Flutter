@@ -19,10 +19,17 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
+  final ScrollController _scrollController = ScrollController();
+
+  final lastKey = GlobalKey();
+
   //init state
   @override
   void initState() {
     super.initState();
+
+  
 
 //TODO: Mock Messages
     messages = [
@@ -53,7 +60,29 @@ class _ChatPageState extends State<ChatPage> {
           isRight: true,
           time: DateTime.now().hour.toString()));
 
-      _listKey.currentState?.insertItem(messages.length - 1);
+
+    _listKey.currentState?.insertItem(messages.length - 1);
+
+// Get the full content height.
+// final contentSize = _scrollController.position.viewportDimension + _scrollController.position.maxScrollExtent;
+// // Index to scroll to.
+// final index = messages.length;
+// // Estimate the target scroll position.
+// final target = contentSize * index / messages.length;
+// Scroll to that position.
+
+       _scrollController.animateTo(
+
+      _scrollController.position.maxScrollExtent + (lastKey.currentContext?.size?.height??0),
+
+      curve: Curves.easeOut,
+
+      duration: const Duration(milliseconds: 300),
+
+    );
+
+
+  
       _textController.clear();
       // });
     }
@@ -62,6 +91,8 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
+    final _screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,6 +181,7 @@ class _ChatPageState extends State<ChatPage> {
                         flex: 10,
                         child: AnimatedList(
                           key: _listKey,
+                          controller: _scrollController,
                           physics: const BouncingScrollPhysics(
                               parent: AlwaysScrollableScrollPhysics()),
                           initialItemCount: messages.length,
@@ -163,9 +195,9 @@ class _ChatPageState extends State<ChatPage> {
                             }
                             return SlideTransition(
                               position: Tween<Offset>(
-                                begin: const Offset(0, -1),
+                                begin:  const Offset(-1, 10),
                                 end: Offset.zero,
-                              ).animate(animation),
+                              ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     bottom: (((i + 1) < messages.length) &&
@@ -176,6 +208,7 @@ class _ChatPageState extends State<ChatPage> {
                                         : Dimensions
                                             .messageBubbleInternalPadding),
                                 child: _ChatBubble(
+                                  key: messages.length == i + 1 ? lastKey : null,
                                   chat: messages[i],
                                   showProfileBox: showProfileBox,
                                 ),
