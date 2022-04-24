@@ -19,6 +19,14 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
+  GlobalKey _itemKey = GlobalKey();
+
+  Tween<Offset> _itemTween =Tween<Offset>(
+                                begin:  Offset(-2,7),
+                                end: Offset.zero,
+                              );
+  
   //init state
   @override
   void initState() {
@@ -31,29 +39,63 @@ class _ChatPageState extends State<ChatPage> {
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
           time: "08:30"),
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
-          isRight: false,
-          time: "08:30"),
-      MessageModel(
-          text: "Lorem ipsum dolor amet, consectetur.",
-          isRight: true,
-          time: "08:30"),
-      MessageModel(text: "Consectetur", isRight: false, time: "08:30"),
-      MessageModel(text: "ipsum .", isRight: true, time: "08:30")
+      // MessageModel(
+      //     text:
+      //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
+      //     isRight: false,
+      //     time: "08:30"),
+      // MessageModel(
+      //     text: "Lorem ipsum dolor amet, consectetur.",
+      //     isRight: true,
+      //     time: "08:30"),
+      // MessageModel(text: "Consectetur", isRight: false, time: "08:30"),
+      // MessageModel(text: "ipsum .", isRight: true, time: "08:30")
     ];
   }
 
   void _sendMessage() {
+    
     if (_textController.text.isNotEmpty) {
-      // setState(() {
-      messages.add(MessageModel(
+      final addingMessage = MessageModel(
           text: _textController.text,
           isRight: true,
-          time: DateTime.now().hour.toString()));
+          time: DateTime.now().hour.toString());
+
+      messages.add(addingMessage);
 
       _listKey.currentState?.insertItem(messages.length - 1);
+      WidgetsBinding.instance?.addPostFrameCallback((_){
+        final _itemKey = addingMessage.uiKey;
+        final Size screenSize = MediaQuery.of(context).size;
+      // Get render box of the widget
+      final RenderObject? widgetRenderObject =
+          _itemKey.currentContext?.findRenderObject();
+      // Get widget's size
+      final Size widgetSize = widgetRenderObject?.paintBounds.size??Size.zero;
+      final double widgetDx = widgetRenderObject?.paintBounds.top ?? 0.0;
+      //final double widgetDy = widgetRenderObject?.paintBounds.left ?? 0.0;
+
+      // Calculate the dy offset.
+      // We divide the screen height by 2 because the initial position of the widget is centered.
+      // Ceil the value, so we get a position that is a bit lower the bottom edge of the screen.
+      // print(widgetSize.height);
+      // widgetRenderObject.paintBounds.top;
+      final double offsetDy = (screenSize.height / 2 / widgetSize.height).ceilToDouble();
+      final double offsetDx = (screenSize.width / 2 / widgetSize.width).ceilToDouble();
+      print('dx: $offsetDx');
+      print('dy: $offsetDy');
+      // Re-set the tween and animation
+      setState(() {
+              _itemTween = Tween<Offset>(
+        begin: Offset(offsetDx, offsetDy),
+        end: Offset.zero,
+      );
+
+      });
+      });
+
+
+
       _textController.clear();
       // });
     }
@@ -154,6 +196,7 @@ class _ChatPageState extends State<ChatPage> {
                               parent: AlwaysScrollableScrollPhysics()),
                           initialItemCount: messages.length,
                           itemBuilder: (c, i, animation) {
+                            //animation.addStatusListener(() { })
                             var showProfileBox = true;
                             if (i != 0) {
                               var currentChat = messages[i];
@@ -162,10 +205,7 @@ class _ChatPageState extends State<ChatPage> {
                                   currentChat.isRight != previousChat.isRight;
                             }
                             return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(0, -1),
-                                end: Offset.zero,
-                              ).animate(animation),
+                              position: _itemTween.animate(CurvedAnimation(parent: animation, curve: Curves.easeOut )),
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     bottom: (((i + 1) < messages.length) &&
@@ -176,6 +216,7 @@ class _ChatPageState extends State<ChatPage> {
                                         : Dimensions
                                             .messageBubbleInternalPadding),
                                 child: _ChatBubble(
+                                  key: messages[i].uiKey,
                                   chat: messages[i],
                                   showProfileBox: showProfileBox,
                                 ),
@@ -423,6 +464,8 @@ class MessageModel {
   /// time
   final String time;
   final bool isRight;
+
+  final GlobalKey uiKey = GlobalKey();
 
   MessageModel(
       {required this.text,
