@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         FocusScope.of(context).requestFocus(_focusNode);
       },
       child: MaterialApp(
-        title: UI.appName,
+        title: UIConfigs.appName,
         theme: AppTheme.defaultTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.light,

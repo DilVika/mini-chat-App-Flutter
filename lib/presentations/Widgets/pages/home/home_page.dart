@@ -27,8 +27,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
 
-    const horizontalPadding = const EdgeInsets.symmetric(
-        horizontal: Dimensions.defaultHorizontalPadding);
 
     return Scaffold(
       body: Column(
@@ -44,7 +42,7 @@ class HomePage extends StatelessWidget {
                     Hero(
                       tag: AnimationConstants.titleHeroTag,
                       child: Text(
-                        'Nerd Chat',
+                        UIConfigs.appName,
                         style: _theme.textTheme.headlineSmall,
                       ),
                     ),
@@ -157,8 +155,8 @@ class HomePage extends StatelessWidget {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  ChatPage(
-                            title: names[i],
+                                  ChatPageReal(
+                            chatContact: names[i],
                           ),
                           transitionDuration:
                               AnimationConstants.defautTransitionDuration,

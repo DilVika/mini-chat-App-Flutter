@@ -1,8 +1,10 @@
-class UI {
-  UI._();
+class UIConfigs {
+  UIConfigs._();
   static const String prefix = "ui";
-  static const String appName = "$prefix.app_name";
+  static const String appName = "Nerd Chat";
 }
+
+
 
 class ErrorMessage {
   ErrorMessage._();
