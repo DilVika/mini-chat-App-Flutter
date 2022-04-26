@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '/resources/resources.dart';
 
@@ -79,45 +80,47 @@ class _ChatSectionState extends State<ChatSection> {
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
-          time: "08:30"),
+          time: DateTime.now()),
       _MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
-          time: "08:30"),
+          time: DateTime.now()),
       _MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
-          time: "08:30"),
+          time: DateTime.now()),
       _MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
-          time: "08:30"),
+          time: DateTime.now()),
       _MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
           isRight: false,
-          time: "08:30"),
+          time: DateTime.now()),
       _MessageModel(
           text: "Lorem ipsum dolor amet, consectetur.",
           isRight: true,
-          time: "08:30"),
-      _MessageModel(text: "Consectetur", isRight: false, time: "08:30"),
-      _MessageModel(text: "ipsum .", isRight: true, time: "08:30")
+          time: DateTime.now()),
+      _MessageModel(text: "Consectetur", isRight: false, time: DateTime.now()),
+      _MessageModel(text: "ipsum .", isRight: true, time: DateTime.now())
     ];
   }
 
   void _sendMessage() {
     if (_textController.text.isNotEmpty) {
       // setState(() {
-      messages.add(_MessageModel(
-          text: _textController.text,
-          isRight: true,
-          time: DateTime.now().hour.toString()));
+      messages.insert(
+          0,
+          _MessageModel.fromNow(
+            text: _textController.text,
+            isRight: true,
+          ));
 
-      _listKey.currentState?.insertItem(messages.length - 1);
+      _listKey.currentState?.insertItem(0);
 
 // Get the full content height.
 // final contentSize = _scrollController.position.viewportDimension + _scrollController.position.maxScrollExtent;
@@ -128,10 +131,10 @@ class _ChatSectionState extends State<ChatSection> {
 // Scroll to that position.
 
       _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent +
-            (lastKey.currentContext?.size?.height ?? 0),
+        _scrollController.position.minScrollExtent,
+        // (lastKey.currentContext?.size?.height ?? 0),
         curve: Curves.easeOut,
-        duration: const Duration(milliseconds: 300),
+        duration: AnimationConstants.defaultScrollDuration,
       );
 
       _textController.clear();
@@ -206,7 +209,7 @@ class _ChatSectionState extends State<ChatSection> {
                   ],
                 ),
               ),
-              
+
               Expanded(
                 flex: 10,
                 child: AnimatedList(
@@ -215,6 +218,7 @@ class _ChatSectionState extends State<ChatSection> {
                   physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
                   initialItemCount: messages.length,
+                  reverse: true,
                   itemBuilder: (c, i, animation) {
                     var showProfileBox = true;
                     if (i != 0) {
@@ -223,30 +227,28 @@ class _ChatSectionState extends State<ChatSection> {
                       showProfileBox =
                           currentChat.isRight != previousChat.isRight;
                     }
-                    return Builder(
-                      builder: (context) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(-1, 10),
-                            end: Offset.zero,
-                          ).animate(CurvedAnimation(
-                              parent: animation, curve: Curves.easeOut)),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom: (((i + 1) < messages.length) &&
-                                        messages[i].isRight !=
-                                            messages[i + 1].isRight)
-                                    ? Dimensions.messageBubbleExternalPadding
-                                    : Dimensions.messageBubbleInternalPadding),
-                            child: _ChatBubble(
-                              key: messages.length == i + 1 ? lastKey : null,
-                              chat: messages[i],
-                              showProfileBox: showProfileBox,
-                            ),
+                    return Builder(builder: (context) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(-1, 10),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                            parent: animation, curve: Curves.easeOut)),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: (((i + 1) < messages.length) &&
+                                      messages[i].isRight !=
+                                          messages[i + 1].isRight)
+                                  ? Dimensions.messageBubbleExternalPadding
+                                  : Dimensions.messageBubbleInternalPadding),
+                          child: _ChatBubble(
+                            key: messages.length == i + 1 ? lastKey : null,
+                            chat: messages[i],
+                            showProfileBox: showProfileBox,
                           ),
-                        );
-                      }
-                    );
+                        ),
+                      );
+                    });
                   },
                 ),
               ),
@@ -322,7 +324,6 @@ class _ChatSectionState extends State<ChatSection> {
   }
 }
 
-
 class _ChatModel {
   final int chatId;
   final UserModel sender;
@@ -330,7 +331,8 @@ class _ChatModel {
   final _MessageModel message;
   final String sentAt;
 
-  _ChatModel(this.chatId, this.sender, this.receiver, this.message, this.sentAt);
+  _ChatModel(
+      this.chatId, this.sender, this.receiver, this.message, this.sentAt);
 }
 
 class UserModel {
@@ -344,17 +346,26 @@ class _MessageModel {
 
   final MessageStatus status;
 
-  /// Time and is right is supposed to be calculated from chat model,
-  /// these wew used here to increase speed, it ca be improved at a later
-  /// time
-  final String time;
+  /// if time is null, then set to now time.
+  final DateTime time;
   final bool isRight;
 
-  _MessageModel(
-      {required this.text,
-      required this.time,
-      this.status = MessageStatus.sent,
-      required this.isRight});
+  final _dateFormat = DateFormat('HH:mm');
+
+  String get timeString => _dateFormat.format(time);
+
+  _MessageModel({
+    required this.text,
+    required this.time,
+    this.status = MessageStatus.sent,
+    required this.isRight,
+  });
+
+  _MessageModel.fromNow({
+    required this.text,
+    required this.isRight,
+  })  : time = DateTime.now(),
+        status = MessageStatus.sending;
 }
 
 enum MessageStatus {

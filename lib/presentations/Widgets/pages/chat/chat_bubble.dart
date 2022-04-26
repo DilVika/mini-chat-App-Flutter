@@ -20,7 +20,7 @@ class _ChatBubble extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  chat.time,
+                  chat.timeString,
                   style: theme.textTheme.labelLarge,
                 ),
               ),
@@ -108,7 +108,7 @@ class _ChatBubble extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
-                          chat.time,
+                          chat.timeString,
                           style: theme.textTheme.labelLarge,
                         ),
                       ),

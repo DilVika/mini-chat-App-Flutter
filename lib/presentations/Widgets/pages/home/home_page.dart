@@ -27,7 +27,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
 
-
     return Scaffold(
       body: Column(
         children: [
@@ -180,7 +179,6 @@ class HomePage extends StatelessWidget {
                         bool isPush =
                             flightDirection == HeroFlightDirection.push;
                         if (isPush) {
-                          print('Push');
                           return Stack(
                             children: [
                               Align(
@@ -199,8 +197,6 @@ class HomePage extends StatelessWidget {
                             ],
                           );
                         } else {
-                          print('Pop');
-                          print(flightDirection);
                           return Stack(
                             children: [
                               Align(
@@ -221,16 +217,14 @@ class HomePage extends StatelessWidget {
                         }
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.defaultHorizontalPadding,
-                            vertical: Dimensions.defaultSpacing),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: Dimensions.defaultSpacing,
+                          horizontal: Dimensions.defaultHorizontalPadding,
+                        ),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                         ),
-                        key: ValueKey<int>(i),
-                        width: 370,
-                        height: 90,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -280,7 +274,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
