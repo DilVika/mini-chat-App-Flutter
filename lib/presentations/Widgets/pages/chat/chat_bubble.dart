@@ -1,7 +1,7 @@
 part of 'chat_page.dart';
 
 class _ChatBubble extends StatelessWidget {
-  final _MessageModel chat;
+  final MessageModel chat;
   final bool showProfileBox;
 
   const _ChatBubble(

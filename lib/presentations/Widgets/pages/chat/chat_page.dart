@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../models/message_model.dart';
 import '/resources/resources.dart';
 
 part 'chat_bubble.dart';
@@ -60,7 +61,7 @@ class ChatSection extends StatefulWidget {
 }
 
 class _ChatSectionState extends State<ChatSection> {
-  late List<_MessageModel> messages;
+  late List<MessageModel> messages;
   final TextEditingController _textController = TextEditingController();
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -76,37 +77,37 @@ class _ChatSectionState extends State<ChatSection> {
 
 //TODO: Mock Messages
     messages = [
-      _MessageModel(
+      MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
           time: DateTime.now()),
-      _MessageModel(
+      MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
           time: DateTime.now()),
-      _MessageModel(
+      MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
           time: DateTime.now()),
-      _MessageModel(
+      MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
           isRight: false,
           time: DateTime.now()),
-      _MessageModel(
+      MessageModel(
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
           isRight: false,
           time: DateTime.now()),
-      _MessageModel(
+      MessageModel(
           text: "Lorem ipsum dolor amet, consectetur.",
           isRight: true,
           time: DateTime.now()),
-      _MessageModel(text: "Consectetur", isRight: false, time: DateTime.now()),
-      _MessageModel(text: "ipsum .", isRight: true, time: DateTime.now())
+      MessageModel(text: "Consectetur", isRight: false, time: DateTime.now()),
+      MessageModel(text: "ipsum .", isRight: true, time: DateTime.now())
     ];
   }
 
@@ -115,7 +116,7 @@ class _ChatSectionState extends State<ChatSection> {
       // setState(() {
       messages.insert(
           0,
-          _MessageModel.fromNow(
+          MessageModel.fromNow(
             text: _textController.text,
             isRight: true,
           ));
@@ -324,52 +325,13 @@ class _ChatSectionState extends State<ChatSection> {
   }
 }
 
-class _ChatModel {
-  final int chatId;
-  final UserModel sender;
-  final UserModel receiver;
-  final _MessageModel message;
-  final String sentAt;
+// class _ChatModel {
+//   final int chatId;
+//   final UserModel sender;
+//   final UserModel receiver;
+//   final MessageModel message;
+//   final String sentAt;
 
-  _ChatModel(
-      this.chatId, this.sender, this.receiver, this.message, this.sentAt);
-}
-
-class UserModel {
-  final int userId;
-
-  UserModel(this.userId);
-}
-
-class _MessageModel {
-  final String text;
-
-  final MessageStatus status;
-
-  /// if time is null, then set to now time.
-  final DateTime time;
-  final bool isRight;
-
-  final _dateFormat = DateFormat('HH:mm');
-
-  String get timeString => _dateFormat.format(time);
-
-  _MessageModel({
-    required this.text,
-    required this.time,
-    this.status = MessageStatus.sent,
-    required this.isRight,
-  });
-
-  _MessageModel.fromNow({
-    required this.text,
-    required this.isRight,
-  })  : time = DateTime.now(),
-        status = MessageStatus.sending;
-}
-
-enum MessageStatus {
-  sending,
-  sent,
-  failed,
-}
+//   _ChatModel(
+//       this.chatId, this.sender, this.receiver, this.message, this.sentAt);
+// }
