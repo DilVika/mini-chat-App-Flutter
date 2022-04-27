@@ -7,3 +7,9 @@ class SendMessage extends ChatPageEvent {
 
   SendMessage(this.message);
 }
+
+class GetOlderMessages extends ChatPageEvent {
+  final int lastestMessageId;
+
+  GetOlderMessages(this.lastestMessageId);
+}

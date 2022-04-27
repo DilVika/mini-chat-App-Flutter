@@ -213,44 +213,52 @@ class _ChatSectionState extends State<ChatSection> {
 
               Expanded(
                 flex: 10,
-                child: AnimatedList(
-                  key: _listKey,
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  initialItemCount: messages.length,
-                  reverse: true,
-                  itemBuilder: (c, i, animation) {
-                    var showProfileBox = true;
-                    if (i != 0) {
-                      var currentChat = messages[i];
-                      var previousChat = messages[i - 1];
-                      showProfileBox =
-                          currentChat.isRight != previousChat.isRight;
-                    }
-                    return Builder(builder: (context) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(-1, 10),
-                          end: Offset.zero,
-                        ).animate(CurvedAnimation(
-                            parent: animation, curve: Curves.easeOut)),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: (((i + 1) < messages.length) &&
-                                      messages[i].isRight !=
-                                          messages[i + 1].isRight)
-                                  ? Dimensions.messageBubbleExternalPadding
-                                  : Dimensions.messageBubbleInternalPadding),
-                          child: _ChatBubble(
-                            key: messages.length == i + 1 ? lastKey : null,
-                            chat: messages[i],
-                            showProfileBox: showProfileBox,
-                          ),
-                        ),
-                      );
-                    });
-                  },
+                child: Stack(
+                  children: [
+                    (messages.length == 0)
+                        ? CircularProgressIndicator.adaptive()
+                        : Container(),
+                    AnimatedList(
+                      key: _listKey,
+                      controller: _scrollController,
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      initialItemCount: messages.length,
+                      reverse: true,
+                      itemBuilder: (c, i, animation) {
+                        var showProfileBox = true;
+                        if (i != 0) {
+                          var currentChat = messages[i];
+                          var previousChat = messages[i - 1];
+                          showProfileBox =
+                              currentChat.isRight != previousChat.isRight;
+                        }
+                        return Builder(builder: (context) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(-1, 10),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(
+                                parent: animation, curve: Curves.easeOut)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: (((i + 1) < messages.length) &&
+                                          messages[i].isRight !=
+                                              messages[i + 1].isRight)
+                                      ? Dimensions.messageBubbleExternalPadding
+                                      : Dimensions
+                                          .messageBubbleInternalPadding),
+                              child: _ChatBubble(
+                                key: messages.length == i + 1 ? lastKey : null,
+                                chat: messages[i],
+                                showProfileBox: showProfileBox,
+                              ),
+                            ),
+                          );
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               //Spacer(),

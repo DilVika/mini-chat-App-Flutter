@@ -1,7 +1,7 @@
 class MessageEntity {
   final int id;
-  final String? body;
+  final String? text;
   final DateTime? createdAt;
 
-  MessageEntity(this.id, this.body, this.createdAt);
+  MessageEntity(this.id, this.text, this.createdAt);
 }
