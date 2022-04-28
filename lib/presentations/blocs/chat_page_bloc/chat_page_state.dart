@@ -4,13 +4,16 @@ part of 'chat_page_bloc.dart';
 ///
 abstract class ChatPageState extends NerdChatState {}
 
-class ChatInitial extends ChatPageState {
+class ChatInitialState extends ChatPageState {
+  final List<MessageModel> messages;
+
+  ChatInitialState(this.messages);
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class ChatLoading extends ChatPageState {
+class ChatLoadingState extends ChatPageState {
   @override
   // TODO: implement props
   List<Object?> get props => [];

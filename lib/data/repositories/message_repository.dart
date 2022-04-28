@@ -1,5 +1,6 @@
 import 'package:mini_chat_app_flutter/domains/entities/message_entity.dart';
 
+import '../../utils/object_values/data_result.dart';
 import '../models/message_data_model.dart';
 import '/domains/repositories/i_message_repository.dart';
 import '/services/services.dart';
@@ -13,20 +14,20 @@ class MessageRepository implements IMessageRepository {
   MessageRepository(this._httpService, this._localService);
 
   @override
-  Future<List<MessageDataModel>> getOlderMessages(
+  Future<DataResult<List<MessageEntity>>> getOlderMessages(
       String lastestMessageId) async {
     // TODO: implement getMessages
     throw UnimplementedError();
   }
 
   @override
-  Future<List<MessageEntity>> getLastestMessages() {
+  Future<DataResult<List<MessageEntity>>> getLastestMessages() {
     // TODO: implement getLastestMessages
     throw UnimplementedError();
   }
 
   @override
-  Future<void> sendMessage(MessageEntity message) {
+  Future<DataResult<void>> sendMessage(MessageEntity message) {
     // TODO: implement sendMessage
     throw UnimplementedError();
   }

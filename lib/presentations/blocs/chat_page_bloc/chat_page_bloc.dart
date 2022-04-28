@@ -9,21 +9,23 @@ part 'chat_page_event.dart';
 part 'chat_page_state.dart';
 
 class ChatPageBloc extends Bloc<ChatPageEvent, ChatPageState> {
-  ChatPageBloc() : super(ChatInitial());
+  ChatPageBloc() : super(ChatInitialState(const []));
 
-  @override
   Stream<ChatPageState> mapEventToState(ChatPageEvent event) async* {
+    if (event is ChatInitialEvent) {
+      _handleInitial();
+    }
     if (event is SendMessage) {
       _handleInitial();
     }
   }
 
   Stream<ChatPageState> _handleInitial() async* {
-    yield ChatInitial();
+    yield ChatLoadingState();
     var messages = await _mockData();
 
     if (messages != null) {
-      yield ChatLoadedState(messages);
+      yield ChatInitialState(messages);
     } else if (messages == null) {
       yield ChatErrorState();
     }

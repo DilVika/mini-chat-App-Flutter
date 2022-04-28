@@ -1,9 +1,11 @@
+import '../../utils/object_values/data_result.dart';
 import '../entities/message_entity.dart';
 
 abstract class IMessageRepository {
-  Future<List<MessageEntity>> getOlderMessages(String lastestMessageId);
+  Future<DataResult<List<MessageEntity>>> getOlderMessages(
+      String lastestMessageId);
 
-  Future<List<MessageEntity>> getLastestMessages();
+  Future<DataResult<List<MessageEntity>>> getLastestMessages();
 
-  Future<void> sendMessage(MessageEntity message);
+  Future<DataResult<void>> sendMessage(MessageEntity message);
 }

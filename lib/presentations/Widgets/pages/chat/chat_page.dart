@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:mini_chat_app_flutter/presentations/blocs/chat_page_bloc/chat_page_bloc.dart';
 
 import '../../../models/message_model.dart';
 import '/resources/resources.dart';
@@ -61,7 +63,7 @@ class ChatSection extends StatefulWidget {
 }
 
 class _ChatSectionState extends State<ChatSection> {
-  late List<MessageModel> messages;
+  List<MessageModel> messages = [];
   final TextEditingController _textController = TextEditingController();
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -76,39 +78,43 @@ class _ChatSectionState extends State<ChatSection> {
     super.initState();
 
 //TODO: Mock Messages
-    messages = [
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
-          isRight: false,
-          time: DateTime.now()),
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
-          isRight: false,
-          time: DateTime.now()),
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
-          isRight: false,
-          time: DateTime.now()),
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
-          isRight: false,
-          time: DateTime.now()),
-      MessageModel(
-          text:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
-          isRight: false,
-          time: DateTime.now()),
-      MessageModel(
-          text: "Lorem ipsum dolor amet, consectetur.",
-          isRight: true,
-          time: DateTime.now()),
-      MessageModel(text: "Consectetur", isRight: false, time: DateTime.now()),
-      MessageModel(text: "ipsum .", isRight: true, time: DateTime.now())
-    ];
+    // messages = [
+    //   MessageModel(
+    //       text:
+    //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
+    //       isRight: false,
+    //       time: DateTime.now()),
+    //   MessageModel(
+    //       text:
+    //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
+    //       isRight: false,
+    //       time: DateTime.now()),
+    //   MessageModel(
+    //       text:
+    //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
+    //       isRight: false,
+    //       time: DateTime.now()),
+    //   MessageModel(
+    //       text:
+    //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie fermentum porttitor diam purus ",
+    //       isRight: false,
+    //       time: DateTime.now()),
+    //   MessageModel(
+    //       text:
+    //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie.",
+    //       isRight: false,
+    //       time: DateTime.now()),
+    //   MessageModel(
+    //       text: "Lorem ipsum dolor amet, consectetur.",
+    //       isRight: true,
+    //       time: DateTime.now()),
+    //   MessageModel(text: "Consectetur", isRight: false, time: DateTime.now()),
+    //   MessageModel(text: "ipsum .", isRight: true, time: DateTime.now())
+    // ];
+  }
+
+  void _insertMessage(MessageModel message) {
+    messages.insert(0, message);
   }
 
   void _sendMessage() {
@@ -213,52 +219,69 @@ class _ChatSectionState extends State<ChatSection> {
 
               Expanded(
                 flex: 10,
-                child: Stack(
-                  children: [
-                    (messages.length == 0)
-                        ? CircularProgressIndicator.adaptive()
-                        : Container(),
-                    AnimatedList(
-                      key: _listKey,
-                      controller: _scrollController,
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      initialItemCount: messages.length,
-                      reverse: true,
-                      itemBuilder: (c, i, animation) {
-                        var showProfileBox = true;
-                        if (i != 0) {
-                          var currentChat = messages[i];
-                          var previousChat = messages[i - 1];
-                          showProfileBox =
-                              currentChat.isRight != previousChat.isRight;
-                        }
-                        return Builder(builder: (context) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(-1, 10),
-                              end: Offset.zero,
-                            ).animate(CurvedAnimation(
-                                parent: animation, curve: Curves.easeOut)),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: (((i + 1) < messages.length) &&
-                                          messages[i].isRight !=
-                                              messages[i + 1].isRight)
-                                      ? Dimensions.messageBubbleExternalPadding
-                                      : Dimensions
-                                          .messageBubbleInternalPadding),
-                              child: _ChatBubble(
-                                key: messages.length == i + 1 ? lastKey : null,
-                                chat: messages[i],
-                                showProfileBox: showProfileBox,
-                              ),
-                            ),
-                          );
-                        });
-                      },
-                    ),
-                  ],
+                child: BlocConsumer<ChatPageBloc, ChatPageState>(
+                  bloc: ChatPageBloc()..add(ChatInitialEvent()),
+                  listener: (context, state) {
+                    if (state is ChatLoadedState) {
+                      state.messages.forEach((element) {
+                        _insertMessage(element);
+                      });
+                    }
+                  },
+                  builder: (context, state) {
+                    messages =
+                        (state is ChatInitialState) ? state.messages : [];
+                    return Stack(
+                      children: [
+                        (state is ChatLoadingState)
+                            ? const CircularProgressIndicator()
+                            : Container(),
+                        AnimatedList(
+                          key: _listKey,
+                          controller: _scrollController,
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          initialItemCount: messages.length,
+                          reverse: true,
+                          itemBuilder: (c, i, animation) {
+                            var showProfileBox = true;
+                            if (i != 0) {
+                              var currentChat = messages[i];
+                              var previousChat = messages[i - 1];
+                              showProfileBox =
+                                  currentChat.isRight != previousChat.isRight;
+                            }
+                            return Builder(builder: (context) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(-1, 10),
+                                  end: Offset.zero,
+                                ).animate(CurvedAnimation(
+                                    parent: animation, curve: Curves.easeOut)),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: (((i + 1) < messages.length) &&
+                                              messages[i].isRight !=
+                                                  messages[i + 1].isRight)
+                                          ? Dimensions
+                                              .messageBubbleExternalPadding
+                                          : Dimensions
+                                              .messageBubbleInternalPadding),
+                                  child: _ChatBubble(
+                                    key: messages.length == i + 1
+                                        ? lastKey
+                                        : null,
+                                    chat: messages[i],
+                                    showProfileBox: showProfileBox,
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               //Spacer(),
