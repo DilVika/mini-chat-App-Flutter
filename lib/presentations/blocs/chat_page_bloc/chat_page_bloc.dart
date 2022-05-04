@@ -9,27 +9,48 @@ part 'chat_page_event.dart';
 part 'chat_page_state.dart';
 
 class ChatPageBloc extends Bloc<ChatPageEvent, ChatPageState> {
-  ChatPageBloc() : super(ChatInitialState(const []));
-
-  Stream<ChatPageState> mapEventToState(ChatPageEvent event) async* {
-    if (event is ChatInitialEvent) {
-      _handleInitial();
-    }
-    if (event is SendMessage) {
-      _handleInitial();
-    }
+  ChatPageBloc() : super(ChatInitial()) { 
+    on<ChatInitialed>(_onInitial);
   }
 
-  Stream<ChatPageState> _handleInitial() async* {
-    yield ChatLoadingState();
+  // @override
+  // Stream<ChatPageState> mapEventToState(ChatPageEvent event) async* {
+  //   if (event is ChatInitialEvent) {
+  //     _handleInitial();
+  //   }
+  //   if (event is SendMessage) {
+  //     _handleInitial();
+  //   }
+  // }
+
+  Future<void> _onInitial (ChatInitialed event, Emitter<ChatPageState> emit) async {
+    emit(ChatInitial());
+
     var messages = await _mockData();
+    print(messages[0].text);
 
-    if (messages != null) {
-      yield ChatInitialState(messages);
-    } else if (messages == null) {
-      yield ChatErrorState();
+    if (messages != null && messages.isNotEmpty) {
+      print('Oke data');
+      emit(ChatLoaded(messages));
+    } else {
+      print('no data');
+      emit(ChatError());
     }
   }
+    
+ 
+
+
+  // Stream<ChatPageState> _handleInitial() async* {
+  //   yield ChatLoadingState();
+  //   var messages = await _mockData();
+
+  //   if (messages != null) {
+  //     yield ChatInitialState(messages);
+  //   } else if (messages == null) {
+  //     yield ChatErrorState();
+  //   }
+  // }
 
   /// Return mock data, fake loading.
   Future<List<MessageModel>> _mockData() async {

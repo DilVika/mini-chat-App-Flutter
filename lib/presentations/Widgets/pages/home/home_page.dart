@@ -154,7 +154,7 @@ class HomePage extends StatelessWidget {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  ChatPageReal(
+                                  ChatPage(
                             chatContact: names[i],
                           ),
                           transitionDuration:

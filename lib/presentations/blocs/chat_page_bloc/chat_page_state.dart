@@ -4,32 +4,32 @@ part of 'chat_page_bloc.dart';
 ///
 abstract class ChatPageState extends NerdChatState {}
 
-class ChatInitialState extends ChatPageState {
+class ChatInitial extends ChatPageState {
+
+
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class ChatLoading extends ChatPageState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class ChatLoaded extends ChatPageState {
   final List<MessageModel> messages;
 
-  ChatInitialState(this.messages);
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
-
-class ChatLoadingState extends ChatPageState {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
-
-class ChatLoadedState extends ChatPageState {
-  final List<MessageModel> messages;
-
-  ChatLoadedState(this.messages);
+  ChatLoaded(this.messages);
 
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class ChatErrorState extends ChatPageState {
+class ChatError extends ChatPageState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();

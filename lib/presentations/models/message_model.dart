@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+import '../../resources/resources.dart';
+
 class MessageModel {
   final String? id;
   final String text;
@@ -10,7 +12,7 @@ class MessageModel {
   final DateTime time;
   final bool isRight;
 
-  final _dateFormat = DateFormat('HH:mm');
+  final _dateFormat =  DateConstants.dateFormatter;
 
   String get timeString => _dateFormat.format(time);
 

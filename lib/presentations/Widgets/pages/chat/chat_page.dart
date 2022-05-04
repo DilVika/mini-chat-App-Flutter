@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:mini_chat_app_flutter/presentations/blocs/chat_page_bloc/chat_page_bloc.dart';
 
 import '../../../models/message_model.dart';
@@ -9,10 +8,10 @@ import '/resources/resources.dart';
 
 part 'chat_bubble.dart';
 
-class ChatPageReal extends StatelessWidget {
+class ChatPage extends StatelessWidget {
   final String chatContact;
 
-  const ChatPageReal({Key? key, required this.chatContact}) : super(key: key);
+  const ChatPage({Key? key, required this.chatContact}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -220,65 +219,30 @@ class _ChatSectionState extends State<ChatSection> {
               Expanded(
                 flex: 10,
                 child: BlocConsumer<ChatPageBloc, ChatPageState>(
-                  bloc: ChatPageBloc()..add(ChatInitialEvent()),
+                  bloc: ChatPageBloc()..add(ChatInitialed()),
                   listener: (context, state) {
-                    if (state is ChatLoadedState) {
+                    if (state is ChatLoaded) {
                       state.messages.forEach((element) {
                         _insertMessage(element);
                       });
                     }
                   },
+                  // Only build when state is not Loading
+                  buildWhen: (previous, current) =>
+                      current is! ChatLoading,
                   builder: (context, state) {
-                    messages =
-                        (state is ChatInitialState) ? state.messages : [];
+                    messages = (state is ChatLoaded) ? state.messages : [];
                     return Stack(
                       children: [
-                        (state is ChatLoadingState)
-                            ? const CircularProgressIndicator()
-                            : Container(),
-                        AnimatedList(
-                          key: _listKey,
-                          controller: _scrollController,
-                          physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics()),
-                          initialItemCount: messages.length,
-                          reverse: true,
-                          itemBuilder: (c, i, animation) {
-                            var showProfileBox = true;
-                            if (i != 0) {
-                              var currentChat = messages[i];
-                              var previousChat = messages[i - 1];
-                              showProfileBox =
-                                  currentChat.isRight != previousChat.isRight;
-                            }
-                            return Builder(builder: (context) {
-                              return SlideTransition(
-                                position: Tween<Offset>(
-                                  begin: const Offset(-1, 10),
-                                  end: Offset.zero,
-                                ).animate(CurvedAnimation(
-                                    parent: animation, curve: Curves.easeOut)),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: (((i + 1) < messages.length) &&
-                                              messages[i].isRight !=
-                                                  messages[i + 1].isRight)
-                                          ? Dimensions
-                                              .messageBubbleExternalPadding
-                                          : Dimensions
-                                              .messageBubbleInternalPadding),
-                                  child: _ChatBubble(
-                                    key: messages.length == i + 1
-                                        ? lastKey
-                                        : null,
-                                    chat: messages[i],
-                                    showProfileBox: showProfileBox,
-                                  ),
-                                ),
-                              );
-                            });
-                          },
-                        ),
+                        (state is ChatInitial)
+                            ? const Center(child: CircularProgressIndicator())
+                            : (state is ChatLoaded) ? _MessagesList(
+                                key: lastKey,
+                                controller: _scrollController,
+                                messages: messages,
+                              ) : (state is ChatError)
+                                ? const Center(child: Text('Error'))
+                                : Container(),
                       ],
                     );
                   },
@@ -356,13 +320,57 @@ class _ChatSectionState extends State<ChatSection> {
   }
 }
 
-// class _ChatModel {
-//   final int chatId;
-//   final UserModel sender;
-//   final UserModel receiver;
-//   final MessageModel message;
-//   final String sentAt;
+class _MessagesList extends StatelessWidget {
+  final Key? key;
 
-//   _ChatModel(
-//       this.chatId, this.sender, this.receiver, this.message, this.sentAt);
-// }
+  final int initialItemCount = 0;
+  final Axis scrollDirection = Axis.vertical;
+  final bool reverse = false;
+  final ScrollController? controller;
+
+  final List<MessageModel> messages;
+
+  const _MessagesList({this.key, this.controller, required this.messages})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedList(
+      key: key,
+      controller: controller,
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      initialItemCount: messages.length,
+      reverse: true,
+      itemBuilder: (c, i, animation) {
+        var showProfileBox = true;
+        if (i != 0) {
+          var currentChat = messages[i];
+          var previousChat = messages[i - 1];
+          showProfileBox = currentChat.isRight != previousChat.isRight;
+        }
+        return Builder(builder: (context) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(-1, 10),
+              end: Offset.zero,
+            ).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeOut)),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: (((i + 1) < messages.length) &&
+                          messages[i].isRight != messages[i + 1].isRight)
+                      ? Dimensions.messageBubbleExternalPadding
+                      : Dimensions.messageBubbleInternalPadding),
+              child: _ChatBubble(
+                key: messages.length == i + 1 ? key : null,
+                chat: messages[i],
+                showProfileBox: showProfileBox,
+              ),
+            ),
+          );
+        });
+      },
+    );
+  }
+}

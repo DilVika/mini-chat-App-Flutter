@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class AnimationConstants {
   static const defautTransitionDuration = Duration(milliseconds: 700);
 
@@ -8,4 +10,7 @@ class AnimationConstants {
 
 class DateConstants {
   static const chatTimeFormat = 'HH:mm';
+
+  static final dateFormatter =  DateFormat(chatTimeFormat);
+
 }
