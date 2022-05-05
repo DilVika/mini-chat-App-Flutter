@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:mini_chat_app_flutter/presentations/Widgets/pages/home/home_page.dart';
 import 'package:mini_chat_app_flutter/theme.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'resources/resources.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

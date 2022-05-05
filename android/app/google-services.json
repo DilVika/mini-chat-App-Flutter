@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "821605393293",
+    "project_id": "nerdchat-flutter-mini-chat",
+    "storage_bucket": "nerdchat-flutter-mini-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821605393293:android:8527530b572583aeafd3c4",
+        "android_client_info": {
+          "package_name": "com.example.mini_chat_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821605393293-u1ok0injcgilarnu1t93s8ruvpcg2ede.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOts_FzeZ91xLGEhXBKYxxiViYYkg9bWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821605393293-u1ok0injcgilarnu1t93s8ruvpcg2ede.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

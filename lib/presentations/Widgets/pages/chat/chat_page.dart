@@ -69,7 +69,8 @@ class _ChatSectionState extends State<ChatSection> {
 
   final ScrollController _scrollController = ScrollController();
 
-  final lastKey = GlobalKey();
+  //TODO: Impl lastkey if needed for scrolling.
+  // final lastKey = GlobalKey();
 
   //init state
   @override
@@ -138,6 +139,7 @@ class _ChatSectionState extends State<ChatSection> {
 
       _scrollController.animateTo(
         _scrollController.position.minScrollExtent,
+        // Dont remove the key.
         // (lastKey.currentContext?.size?.height ?? 0),
         curve: Curves.easeOut,
         duration: AnimationConstants.defaultScrollDuration,
@@ -228,21 +230,23 @@ class _ChatSectionState extends State<ChatSection> {
                     }
                   },
                   // Only build when state is not Loading
-                  buildWhen: (previous, current) =>
-                      current is! ChatLoading,
+                  buildWhen: (previous, current) => current is! ChatLoading,
                   builder: (context, state) {
                     messages = (state is ChatLoaded) ? state.messages : [];
                     return Stack(
                       children: [
                         (state is ChatInitial)
                             ? const Center(child: CircularProgressIndicator())
-                            : (state is ChatLoaded) ? _MessagesList(
-                                key: lastKey,
-                                controller: _scrollController,
-                                messages: messages,
-                              ) : (state is ChatError)
-                                ? const Center(child: Text('Error'))
-                                : Container(),
+                            : (state is ChatLoaded)
+                                ? _MessagesList(
+                                    // Dont remove the key.
+                                    //key: lastKey,
+                                    controller: _scrollController,
+                                    messages: messages,
+                                  )
+                                : (state is ChatError)
+                                    ? const Center(child: Text('Error'))
+                                    : Container(),
                       ],
                     );
                   },

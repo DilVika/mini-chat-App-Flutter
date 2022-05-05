@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/message_model.dart';
@@ -9,7 +7,7 @@ part 'chat_page_event.dart';
 part 'chat_page_state.dart';
 
 class ChatPageBloc extends Bloc<ChatPageEvent, ChatPageState> {
-  ChatPageBloc() : super(ChatInitial()) { 
+  ChatPageBloc() : super(ChatInitial()) {
     on<ChatInitialed>(_onInitial);
   }
 
@@ -23,7 +21,8 @@ class ChatPageBloc extends Bloc<ChatPageEvent, ChatPageState> {
   //   }
   // }
 
-  Future<void> _onInitial (ChatInitialed event, Emitter<ChatPageState> emit) async {
+  Future<void> _onInitial(
+      ChatInitialed event, Emitter<ChatPageState> emit) async {
     emit(ChatInitial());
 
     var messages = await _mockData();
@@ -37,9 +36,6 @@ class ChatPageBloc extends Bloc<ChatPageEvent, ChatPageState> {
       emit(ChatError());
     }
   }
-    
- 
-
 
   // Stream<ChatPageState> _handleInitial() async* {
   //   yield ChatLoadingState();

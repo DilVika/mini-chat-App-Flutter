@@ -7,9 +7,9 @@ import '/extensions/extensions.dart';
 class SendMessageUsecase {
   final MessageEntity message;
 
-  SendMessageUsecase(this.repository, this.message);
-
   final IMessageRepository repository;
+
+  SendMessageUsecase(this.repository, this.message);
 
   Future<DataResult<void>> execute(MessageEntity request) async {
     return await repository.sendMessage(request);
