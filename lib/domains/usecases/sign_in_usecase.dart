@@ -1,7 +1,7 @@
 import 'package:mini_chat_app_flutter/domains/entities/user_entity.dart';
 import 'package:mini_chat_app_flutter/domains/repositories/i_authen_repository.dart';
-import 'package:mini_chat_app_flutter/domains/usecases/usecase.dart';
-import 'package:mini_chat_app_flutter/utils/object_values/data_result.dart';
+
+import '../../utils/value_objects/value_objects.dart';
 
 class SignInUsecase {
   final UserEntity user;

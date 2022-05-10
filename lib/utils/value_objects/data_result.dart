@@ -11,11 +11,6 @@ abstract class Failure extends Equatable implements Exception {
   List<Object> get props => [];
 }
 
-// General failures
-class GenericFailure extends Failure {}
-
-class APIFailure extends Failure {}
-
 /// This abstraction contains either a success data of generic type `S` or a
 /// failure error of type `Failure` as its result.
 ///
