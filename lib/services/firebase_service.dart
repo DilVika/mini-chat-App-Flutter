@@ -49,7 +49,14 @@ class FirebaseService implements IFirebaseService {
       idToken: googleAuth.idToken,
     );
 
-    // User? firebaseUser =
-    //     (await FirebaseAuth.signInWithCredential(credential)).user;
+    User? firebaseUser =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+
+    if (firebaseUser == null || firebaseUser.displayName == null) {
+      return DataResult.failure(SignInFailure());
+    }
+
+    return DataResult.success(UserServiceModel(
+        id: firebaseUser.uid, name: firebaseUser.displayName!));
   }
 }

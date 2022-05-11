@@ -1,4 +1,4 @@
-import '../../utils/object_values/data_result.dart';
+import '../../utils/value_objects/value_objects.dart';
 import '../entities/message_entity.dart';
 
 abstract class IMessageRepository {
