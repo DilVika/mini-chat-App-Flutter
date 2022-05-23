@@ -4,5 +4,5 @@ class UserEntity {
   final String name;
   final String? avatar;
 
-  UserEntity(this.id, this.name, this.avatar);
+  UserEntity({required this.id, required this.name, this.avatar});
 }

@@ -56,7 +56,8 @@ class FirebaseService implements IFirebaseService {
       return DataResult.failure(SignInFailure());
     }
 
-    return DataResult.success(UserServiceModel(
-        id: firebaseUser.uid, name: firebaseUser.displayName!));
+    return DataResult.success(
+      UserServiceModel(id: firebaseUser.uid, name: firebaseUser.displayName!),
+    );
   }
 }

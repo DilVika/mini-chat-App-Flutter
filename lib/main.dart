@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_chat_app_flutter/presentations/Widgets/pages/home/home_page.dart';
 import 'package:mini_chat_app_flutter/theme.dart';
 
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -13,6 +14,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
 
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   runApp(const MyApp());

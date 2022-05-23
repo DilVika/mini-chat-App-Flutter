@@ -11,7 +11,7 @@ class GettMessagesUsecase {
 
   Future<DataResult<List<MessageEntity>>> execute() async {
     if (lastestMessageId == null || lastestMessageId!.isEmpty) {
-      return await _messageRepository.getLastestMessages();
+      return await _messageRepository.getLastestChatMessages(null);
     } else {
       return await _messageRepository.getOlderMessages(lastestMessageId!);
     }

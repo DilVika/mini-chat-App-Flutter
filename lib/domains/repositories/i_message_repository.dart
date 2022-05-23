@@ -3,9 +3,11 @@ import '../entities/message_entity.dart';
 
 abstract class IMessageRepository {
   Future<DataResult<List<MessageEntity>>> getOlderMessages(
-      String lastestMessageId);
+      String earliestMessageId);
+  Future<DataResult<List<MessageEntity>>> getLastestChatMessages(String? lastestMessageId);
 
-  Future<DataResult<List<MessageEntity>>> getLastestMessages();
+    Future<DataResult<List<MessageEntity>>> getLastestMessagesById();
 
   Future<DataResult<void>> sendMessage(MessageEntity message);
 }
+

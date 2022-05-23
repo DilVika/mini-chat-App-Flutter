@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mini_chat_app_flutter/domains/entities/message_entity.dart';
+
 
 import '../../utils/value_objects/value_objects.dart';
 import '/domains/repositories/i_message_repository.dart';
@@ -20,7 +23,13 @@ class MessageRepository implements IMessageRepository {
   }
 
   @override
-  Future<DataResult<List<MessageEntity>>> getLastestMessages() {
+  Future<DataResult<List<MessageEntity>>> getLastestChatMessages(String? lastestMessageId) {
+    // TODO: implement getLastestMessages
+    throw UnimplementedError();
+  }
+
+    @override
+  Future<DataResult<List<MessageEntity>>> getLastestMessagesById() {
     // TODO: implement getLastestMessages
     throw UnimplementedError();
   }
@@ -30,4 +39,7 @@ class MessageRepository implements IMessageRepository {
     // TODO: implement sendMessage
     throw UnimplementedError();
   }
+
+
+
 }
