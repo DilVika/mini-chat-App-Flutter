@@ -1,13 +1,53 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '/presentations/Widgets/pages/chat/chat_page.dart';
 
 // Import resource.dart relatives path
 import '/resources/resources.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+//TODO: for PoC
+  Future<User?> loginGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Sign in aborted
+    if (googleUser == null) {
+      print('Sigin Error');
+    }
+
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    User? firebaseUser =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+
+    // if (firebaseUser == null || firebaseUser.displayName == null) {
+    //   print('Sigin Error');
+    // }
+
+    if (firebaseUser != null) {
+    // Check is already sign up
+    final QuerySnapshot result =
+        await FirebaseFirestore.instance.collection(FirestoreConstants.pathUserCollection).where(FirestoreConstants.id, isEqualTo: firebaseUser.uid).get();
+    final List < DocumentSnapshot > documents = result.docs;
+    if (documents.length == 0) {
+        // Update data to server if new user
+        FirebaseFirestore.instance.collection(FirestoreConstants.pathUserCollection).doc(firebaseUser.uid).set(
+            { FirestoreConstants.nickname: firebaseUser.displayName, FirestoreConstants.photoUrl: firebaseUser.photoURL, 'id': firebaseUser.uid });
+    }
+}
+
+    return firebaseUser;
+  }
 
   static const List<String> names = [
     "Justin Wan",
@@ -22,6 +62,16 @@ class HomePage extends StatelessWidget {
     "Bill Gates",
     "Jeff Bezos"
   ];
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool _isLoggedIn = false;
+
+  int _limit = 20;
+  int _limitIncrement = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +90,19 @@ class HomePage extends StatelessWidget {
                   children: [
                     Hero(
                       tag: AnimationConstants.titleHeroTag,
-                      child: Text(
-                        UIConfigs.appName,
-                        style: _theme.textTheme.headlineSmall,
-                      ),
+                      child: (_isLoggedIn)
+                          ? Text(
+                            //TODO: User info
+                            UIConfigs.appName,
+                            style: _theme.textTheme.headlineSmall,
+                          )
+                          : GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                UIConfigs.appName,
+                                style: _theme.textTheme.headlineSmall,
+                              ),
+                            ),
                     ),
                     SizedBox(
                       width: Dimensions.defaultIconSize,
@@ -54,69 +113,84 @@ class HomePage extends StatelessWidget {
                         onPressed: () {
                           //TODO: Implement here
                         },
-                        child: const Icon(
-                          Icons.logout_rounded,
-                          //color: Colors.white,
+                        child: Visibility(
+                          visible: _isLoggedIn,
+                          child: const Icon(
+                            Icons.logout_rounded,
+                            //color: Colors.white,
+                          ),
                         ),
                       ),
                     )
                   ],
                 ),
                 const SizedBox(height: Dimensions.defaultVerticalPadding),
-                Text('Last Contact', style: _theme.textTheme.titleSmall),
+                Text('Contact', style: _theme.textTheme.titleSmall),
                 const SizedBox(height: Dimensions.defaultVerticalPadding),
-                SizedBox(
-                  height: Dimensions.sheetSmallHeight,
-                  width: Dimensions.sheetsmallWidth,
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: names.length,
-                    itemBuilder: (c, i) {
-                      return SizedBox(
-                        width: Dimensions.avatarHolderSize,
-                        height: Dimensions.avatarHolderSize,
-                        child: Stack(
-                          fit: StackFit.loose,
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.smallRadius),
-                                child: Container(
-                                  width: Dimensions.avatarSize,
-                                  height: Dimensions.avatarSize,
-                                  color: AppColors.greyC4,
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .limit(_limit)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return SizedBox(
+                          height: Dimensions.sheetSmallHeight,
+                          width: Dimensions.sheetsmallWidth,
+                          child: ListView.separated(
+                            physics: const BouncingScrollPhysics(
+                                parent: AlwaysScrollableScrollPhysics()),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: HomePage.names.length,
+                            itemBuilder: (c, i) {
+                              return SizedBox(
+                                width: Dimensions.avatarHolderSize,
+                                height: Dimensions.avatarHolderSize,
+                                child: Stack(
+                                  fit: StackFit.loose,
+                                  children: [
+                                    Positioned(
+                                      left: 0,
+                                      top: 0,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            Dimensions.smallRadius),
+                                        child: Container(
+                                          width: Dimensions.avatarSize,
+                                          height: Dimensions.avatarSize,
+                                          color: AppColors.greyC4,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        width: Dimensions.onlineDotRadius,
+                                        height: Dimensions.onlineDotRadius,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              Dimensions.onlineDotRadius),
+                                          color: AppColors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: Dimensions.onlineDotRadius,
-                                height: Dimensions.onlineDotRadius,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.onlineDotRadius),
-                                  color: AppColors.blue,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: Dimensions.defaultSpacing,
-                      );
-                    },
-                  ),
-                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: Dimensions.defaultSpacing,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    }),
               ],
             ),
           ),
@@ -142,7 +216,7 @@ class HomePage extends StatelessWidget {
               child: ListView.separated(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                itemCount: names.length,
+                itemCount: HomePage.names.length,
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
                 itemBuilder: (c, i) {
@@ -155,7 +229,7 @@ class HomePage extends StatelessWidget {
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
                                   ChatPage(
-                            chatContact: names[i],
+                            chatContact: HomePage.names[i],
                           ),
                           transitionDuration:
                               AnimationConstants.defautTransitionDuration,
@@ -173,7 +247,7 @@ class HomePage extends StatelessWidget {
                       );
                     },
                     child: Hero(
-                      tag: names[i],
+                      tag: HomePage.names[i],
                       flightShuttleBuilder: (context, animation,
                           flightDirection, fromHeroContext, toHeroContext) {
                         bool isPush =
@@ -253,7 +327,7 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          names[i],
+                                          HomePage.names[i],
                                           style: _theme.textTheme.titleMedium,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
